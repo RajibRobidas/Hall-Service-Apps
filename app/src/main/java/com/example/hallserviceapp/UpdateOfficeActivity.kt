@@ -22,10 +22,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,7 +52,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.UUID
-
 class UpdateOfficeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +80,8 @@ fun UpdateOfficeScreen() {
     val storageReference = FirebaseStorage.getInstance().reference
     val databaseReference = Firebase.database.reference
     val lightBlue = Color(0xFF8FABE7) // Light blue color
+    var isLoading by remember { mutableStateOf(false) }  // Loading state
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -133,12 +138,28 @@ fun UpdateOfficeScreen() {
                 )
 
                 Spacer(modifier = Modifier.size(16.dp))
+                if (isLoading) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator()
+                        Text(
+                            text = "Uploading... Please wait",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = Color.Gray
+                        )
+                    }
+                }
 
                 Button(
                     onClick = {
                         if (officeName.isNotEmpty() && designation.isNotEmpty() &&
                             phoneNumber.isNotEmpty() && email.isNotEmpty() && imageUri != null
                         ) {
+                            showDialog = true
+                            isLoading= true
                             uploadOfficeToFirebase(
                                 context,
                                 imageUri,
@@ -160,6 +181,30 @@ fun UpdateOfficeScreen() {
                     modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth()
                 ) {
                     Text("Upload Office Information")
+                }
+                if (showDialog) {
+                    AlertDialog(
+                        onDismissRequest = {
+                            showDialog = false
+                            isLoading= false
+
+                        },
+                        title = {
+                            Text("Uploading")
+                        },
+                        text = {
+                            Text("Uploading... Please wait")
+                        },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    showDialog = false
+                                    isLoading= false                                }
+                            ) {
+                                Text("Dismiss")
+                            }
+                        }
+                    )
                 }
 
             }

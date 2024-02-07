@@ -92,14 +92,14 @@ fun HeaderSectionAuthoritys() {
         verticalAlignment = Alignment.Top
     ) {
         Image(
-            painter = painterResource(id = R.drawable.arrow_back),
+            painter = painterResource(id = R.drawable.headline),
             contentDescription = "arrow",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
                         Intent(
                             context,
-                            AdminActivity::class.java
+                            UserActivity::class.java
                         )
                     )
                 }
@@ -193,6 +193,7 @@ fun AuthorityItem(authority: Authoritys) {
 }
 
 data class Authoritys(
+    val id: String = "",
     val designation: String = "",
     val email: String = "",
     val imageUrl: String = "",

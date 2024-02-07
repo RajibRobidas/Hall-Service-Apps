@@ -107,7 +107,7 @@ fun HeaderSectionN() {
                 .padding(end = 25.dp)
         )
 
-        Spacer(modifier = Modifier.width(50.dp)) // For spacing
+        Spacer(modifier = Modifier.width(60.dp)) // For spacing
 
         Text(
             text = "Notice",

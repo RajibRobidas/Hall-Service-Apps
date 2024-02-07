@@ -18,6 +18,41 @@
         android:theme="@style/Theme.HallServiceApp"
         tools:targetApi="31">
         <activity
+            android:name=".DynamicFoodActivity"
+            android:exported="false"
+            android:label="@string/title_activity_dynamic_food"
+            android:theme="@style/Theme.HallServiceApp" />
+        <activity
+            android:name=".DeleteCanteenActivity"
+            android:exported="false"
+            android:label="@string/title_activity_delete_canteen"
+            android:theme="@style/Theme.HallServiceApp" />
+        <activity
+            android:name=".AddCanteenActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add_canteen"
+            android:theme="@style/Theme.HallServiceApp" />
+        <activity
+            android:name=".DeleteDiningActivity"
+            android:exported="false"
+            android:label="@string/title_activity_delete_dining"
+            android:theme="@style/Theme.HallServiceApp" />
+        <activity
+            android:name=".AddDiningActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add_dining"
+            android:theme="@style/Theme.HallServiceApp" />
+        <activity
+            android:name=".ReadCanteenActivity"
+            android:exported="false"
+            android:label="@string/title_activity_read_canteen"
+            android:theme="@style/Theme.HallServiceApp" />
+        <activity
+            android:name=".ReadDiningActivity"
+            android:exported="false"
+            android:label="@string/title_activity_read_dining"
+            android:theme="@style/Theme.HallServiceApp" />
+        <activity
             android:name=".DeleteOfficesActivity"
             android:exported="false"
             android:label="@string/title_activity_delete_offices"

@@ -27,13 +27,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,39 +67,8 @@ fun ServicesScreen() {
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                //.padding(vertical = 16.dp)
-            ,
-            verticalAlignment = Alignment.Top
-        ) {
-            // Image on the left side
-            Image(
-                painter = painterResource(id = R.drawable.headline),
-                contentDescription = "headline",
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
-                    }
-                    .padding(end = 10.dp)
-                    .size(width = 100.dp, height = 40.dp)
-            )
 
-            Spacer(modifier = Modifier.width(10.dp)) // For spacing
-
-            Text(
-                text = "Services",
-                color = Color.White,
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .background(green)
-                    .padding(12.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
-
+        HeaderSectionService()
         ServicesList()
     }
 }
@@ -140,7 +107,39 @@ fun ServicesList() {
         )
     }
 }
+@Composable
+fun HeaderSectionService() {
 
+    val context = LocalContext.current
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.headline),
+            contentDescription = "Headline",
+            modifier = Modifier
+                .clickable{
+                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
+                }
+                .size(58.dp)
+                .padding(end = 25.dp)
+        )
+
+        Spacer(modifier = Modifier.width(60.dp)) // For spacing
+
+        Text(
+            text = "Services",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .background(Color.White, shape = MaterialTheme.shapes.medium)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        )
+    }
+}
 @Composable
 fun ServiceItem(icon: ImageVector, serviceName: String, roomNumber: String) {
     Row(

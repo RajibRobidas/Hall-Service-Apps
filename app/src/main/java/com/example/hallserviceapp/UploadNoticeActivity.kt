@@ -64,9 +64,8 @@ fun UploadNoticeScreen() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(60.dp))
-        HeaderSectionnn();
 
+        HeaderSectionAddNotice()
 
         Spacer(modifier = Modifier.height(160.dp))
 
@@ -75,33 +74,29 @@ fun UploadNoticeScreen() {
         }
 
         Spacer(modifier = Modifier.height(20.dp))
-
+/*
         OptionText("Upload Notice File", gray) {
             context.startActivity(Intent(context, NoticeFileTextActivity::class.java))
         }
-
+*/
 
     }
 }
 
 @Composable
-fun HeaderSectionnn() {
-    val gray = Color(0xFFBA6FBD)
-    val green = Color(0xFF43B83A)
+fun HeaderSectionAddNotice() {
     val yellow = Color(0xFF40E48A)
-
     val context = LocalContext.current
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .height(80.dp),
         verticalAlignment = Alignment.Top
     ) {
-        // Image on the left side
         Image(
             painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "headline",
+            contentDescription = "arrow",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
@@ -109,23 +104,20 @@ fun HeaderSectionnn() {
                             context,
                             AdminActivity::class.java
                         )
-                    )  // Change to the desired activity
+                    )
                 }
                 .padding(end = 10.dp)
-                .size(width = 100.dp, height = 40.dp)
+                .size(width = 90.dp, height = 30.dp)
         )
-
-        //Spacer(modifier = Modifier.width(5.dp)) // For spacing
 
         Text(
             text = "Upload Notice",
             color = Color.Black,
-            fontSize = 25.sp,
+            fontSize = 20.sp,
             modifier = Modifier
                 .background(yellow, shape = RoundedCornerShape(10.dp))
                 .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
+                .clip(RoundedCornerShape(8.dp))
         )
     }
 }

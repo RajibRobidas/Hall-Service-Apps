@@ -110,13 +110,25 @@ fun FrontAdminScreen() {
                     }
                     else {
                         // Check if the email is the admin email
-                        if (username == "rajibrobidas22222@gmail.com") {
+                        if (username == "rajibrobidas22222@gmail.com" || username == "rajib99@student.sust.edu"|| username == "pradip105@student.sust.edu") {
                             isLoading = true
                             auth.signInWithEmailAndPassword(username, password)
                                 .addOnCompleteListener { task ->
                                     isLoading = false  // Hide progress indicator
                                     if (task.isSuccessful) {
-                                        context.startActivity(Intent(context, AdminActivity::class.java))
+                                        if(username == "rajibrobidas22222@gmail.com" ){
+                                            context.startActivity(Intent(context, AdminActivity::class.java))
+                                        }
+                                        else if(username == "rajib99@student.sust.edu" ){
+                                            context.startActivity(Intent(context, DynamicFoodActivity::class.java))
+                                        }
+                                        else if(username == "pradip105@student.sust.edu" ) {
+                                            context.startActivity(Intent(context, DynamicFoodActivity::class.java))
+                                        }
+                                        else {
+                                            context.startActivity(Intent(context, FrontAdminActivity::class.java))
+                                        }
+                                        //context.startActivity(Intent(context, AdminActivity::class.java))
                                     } else {
                                         Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                                     }

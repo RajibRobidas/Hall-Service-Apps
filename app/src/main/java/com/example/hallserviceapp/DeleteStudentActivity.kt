@@ -2,7 +2,6 @@ package com.example.hallserviceapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -119,22 +118,24 @@ fun DeleteStudentScreen() {
             .padding(16.dp)
     ) {
         HeaderSectionStudentD()
-        SearchSection(onSearch = { registrationNumber = it }) // Add the search section
+        //SearchSection()
         DeleteStudentSections(registrationNumber = registrationNumber) // Pass the registration number to filter the list
     }
 }
 
 @Composable
-fun SearchSection(onSearch: (String) -> Unit) {
+fun SearchSection() {
     var text by remember { mutableStateOf("") }
+    var isButtonClicked by remember { mutableStateOf(false) }
+    var registrationNumber by remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
-            value = text,
-            onValueChange = { text = it },
+            value = registrationNumber,
+            onValueChange = { registrationNumber = it },
             label = { Text("Enter Registration Number") },
             modifier = Modifier.weight(1f)
         )
@@ -142,13 +143,17 @@ fun SearchSection(onSearch: (String) -> Unit) {
         Spacer(modifier = Modifier.width(8.dp))
 
         Button(
-            onClick = { onSearch(text) },
+            onClick = { isButtonClicked = true },
             modifier = Modifier.height(56.dp)
         ) {
-            //DeleteStudentSections(registrationNumber = registrationNumber) // Pass the registration number to filter the list
-
             Text(text = "Search")
         }
+    }
+    Spacer(modifier = Modifier.height(8.dp))
+
+    if (isButtonClicked) {
+        DeleteStudentSections(registrationNumber = registrationNumber) // Pass the registration number to filter the list
+        isButtonClicked =false
     }
 }
 
@@ -163,7 +168,7 @@ fun DeleteStudentSections(registrationNumber: String) {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 isLoading = false
-                studentList = snapshot.children.mapNotNull { it.getValue(Student::class.java) }
+                studentList = snapshot.children.mapNotNull { it.getValue(Student::class.java)?.copy(id = it.key ?: "") }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -181,7 +186,9 @@ fun DeleteStudentSections(registrationNumber: String) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(studentList) { student ->
                 if (student.registrationNumber == registrationNumber || registrationNumber.isEmpty()) {
-                    StudentItemWithDelete(student)
+                    StudentItemWithDelete(student){ studentId->
+                        database.child(studentId).removeValue()
+                    }
                 }
             }
         }
@@ -189,9 +196,11 @@ fun DeleteStudentSections(registrationNumber: String) {
 }
 
 @Composable
-fun StudentItemWithDelete(student: Student) {
+fun StudentItemWithDelete(student: Student, onDelete: (String) -> Unit) {
     val context = LocalContext.current
-    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 8.dp)) {
         Row(
             modifier = Modifier
                 .padding(vertical = 8.dp)
@@ -222,11 +231,11 @@ fun StudentItemWithDelete(student: Student) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 val database = FirebaseDatabase.getInstance().getReference("students")
-
+/*
                 Button(
                     onClick = {
                         // Delete student from Firebase
-                        database.child(student.registrationNumber).removeValue()
+                        database.child(student.id).removeValue()
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     Toast.makeText(context, "Student deleted", Toast.LENGTH_SHORT).show()
@@ -235,9 +244,14 @@ fun StudentItemWithDelete(student: Student) {
                                 }
                             }
                     },
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                    modifier = Modifier
+                        .padding(vertical = 3.dp)
                 ) {
                     Text(text = "Delete")
+                }
+*/
+                Button(onClick = { onDelete(student.id) }) {
+                    Text("Delete")
                 }
             }
         }

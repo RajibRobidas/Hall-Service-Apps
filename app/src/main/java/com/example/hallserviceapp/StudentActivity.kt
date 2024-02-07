@@ -22,10 +22,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +51,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.UUID
-
 class StudentActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +81,7 @@ fun StudentsScreen() {
     val databaseReference = Firebase.database.reference
     val lightBlue = Color(0xFF8FABE7)
     var showDialog by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }  // Loading state
 
     Column(
         modifier = Modifier
@@ -139,8 +143,19 @@ fun StudentsScreen() {
 
                 Spacer(modifier = Modifier.size(16.dp))
 
-                if (showDialog) {
-                    ProgressDialog()
+                if (isLoading) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator()
+                        Text(
+                            text = "Uploading... Please wait",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = Color.Gray
+                        )
+                    }
                 }
 
                 Button(
@@ -148,6 +163,7 @@ fun StudentsScreen() {
                         if (studentName.isNotEmpty() && registrationNumber.isNotEmpty() &&
                             department.isNotEmpty() && hometown.isNotEmpty() && phoneNumber.isNotEmpty() && imageUri != null) {
                             showDialog = true
+                            isLoading= true
                             uploadStudentToFirebase(
                                 context,
                                 studentName,
@@ -159,7 +175,6 @@ fun StudentsScreen() {
                                 storageReference,
                                 databaseReference
                             )
-                            showDialog = false
 
                         } else {
                             Toast.makeText(
@@ -174,6 +189,30 @@ fun StudentsScreen() {
                     Text("Add Student Information")
                 }
 
+                if (showDialog) {
+                    AlertDialog(
+                        onDismissRequest = {
+                            showDialog = false
+                            isLoading= false
+
+                        },
+                        title = {
+                            Text("Uploading")
+                        },
+                        text = {
+                            Text("Uploading... Please wait")
+                        },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    showDialog = false
+                                    isLoading= false                                }
+                            ) {
+                                Text("Dismiss")
+                            }
+                        }
+                    )
+                }
 
             }
         }
@@ -199,7 +238,7 @@ fun HeaderSectionStudents() {
                     context.startActivity(
                         Intent(
                             context,
-                            MainActivity::class.java
+                            AdminActivity::class.java
                         )
                     )
                 }
@@ -291,186 +330,3 @@ fun StudentsScreenPreview() {
     }
 }
 
-/*
-package com.example.hallserviceapp
-
-import android.os.Bundle
-import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import com.example.hallserviceapp.ui.theme.HallServiceAppTheme
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.flow.MutableStateFlow
-
-class StudentsInformationActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            HallServiceAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.White
-                ) {
-                    StudentsInformationScreen()
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun StudentsInformationScreen() {
-    val lightBlue = Color(0xFF8FABE7) // Light blue color
-    val viewModel = remember { StudentViewModel() }
-    val students by viewModel.studentsFlow.collectAsState()
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp)
-    ) {
-        HeaderSection("Students")
-        SearchSection()
-        StudentList(students)
-    }
-}
-
-class StudentViewModel : ViewModel() {
-    private val database: DatabaseReference by lazy {
-        FirebaseDatabase.getInstance().reference.child("students")
-    }
-
-    val studentsFlow = MutableStateFlow<List<Students>>(emptyList())
-
-    init {
-        fetchStudents()
-    }
-
-    private fun fetchStudents() {
-        database.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val students = mutableListOf<Students>()
-                for (studentSnapshot in snapshot.children) {
-                    val student = studentSnapshot.getValue(Students::class.java)
-                    student?.let {
-                        students.add(it)
-                    }
-                }
-                studentsFlow.value = students
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Handle error
-                Log.e("FirebaseDatabase", "Error fetching students: ${error.message}")
-
-            }
-        })
-    }
-}
-
-@Composable
-fun SearchSection() {
-    var searchText by remember { mutableStateOf(TextFieldValue()) }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "Search Student",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = 15.dp)
-        )
-
-        BasicTextField(
-            value = searchText,
-            onValueChange = { searchText = it },
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = 15.dp)
-                .background(Color.White, shape = MaterialTheme.shapes.small)
-                .padding(8.dp)
-                .border(1.dp, MaterialTheme.colorScheme.onBackground, shape = MaterialTheme.shapes.small)
-                .padding(end = 16.dp)
-        )
-    }
-}
-
-@Composable
-fun StudentList(students: List<Students>) {
-    LazyColumn {
-        items(students) { student ->
-            StudentItem(student)
-        }
-    }
-}
-
-@Composable
-fun StudentItem(student: Students) {
-    Column(
-        modifier = Modifier
-            .padding(vertical = 8.dp)
-    ) {
-        Text(text = "Name: ${student.name}")
-        Text(text = "Registration Number: ${student.registrationNumber}")
-        Text(text = "Department: ${student.department}")
-        Text(text = "Hometown: ${student.hometown}")
-        Text(text = "Phone Number: ${student.phoneNumber}")
-    }
-}
-
-data class Student(
-    val id: String, // Unique identifier for the student
-    val name: String,
-    val registrationNumber: String,
-    val department: String,
-    val hometown: String,
-    val phoneNumber: String
-)
-
-@Preview(showBackground = true)
-@Composable
-fun StudentsInformationScreenPreview() {
-    HallServiceAppTheme {
-        StudentsInformationScreen()
-    }
-}
-
- */

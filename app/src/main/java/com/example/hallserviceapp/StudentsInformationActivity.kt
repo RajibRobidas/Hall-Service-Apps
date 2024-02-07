@@ -91,14 +91,14 @@ fun HeaderSectionStudent() {
         verticalAlignment = Alignment.Top
     ) {
         Image(
-            painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "arrow",
+            painter = painterResource(id = R.drawable.headline),
+            contentDescription = "hradline",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
                         Intent(
                             context,
-                            AdminActivity::class.java
+                            UserActivity::class.java
                         )
                     )
                 }
@@ -179,13 +179,13 @@ fun StudentItem(student: Student) {
 
                 Text(text = "Name:  ${student.name}",  style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(text = "Registration Number:  ${student.department}", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "Registration Number:  ${student.registrationNumber}", style = MaterialTheme.typography.bodyMedium)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(text = "Department:  ${student.department}", style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Hometown:  ${student.department}", style = MaterialTheme.typography.bodySmall)
+                Text(text = "Hometown:  ${student.hometown}", style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Phone Number:  ${student.department}", style = MaterialTheme.typography.bodySmall)
+                Text(text = "Phone Number:  ${student.phoneNumber}", style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
                 // Add more details or actions for each student item here
 
@@ -193,22 +193,9 @@ fun StudentItem(student: Student) {
         }
     }
 }
-@Composable
-fun ShowImages(imageUri: String?) {
-    if (imageUri != null) {
-        // Show the selected image
-        Image(
-            painter = rememberImagePainter(imageUri),
-            contentDescription = null,
-            modifier = Modifier
-                .size(80.dp)
-                .padding(vertical = 8.dp)
-                .clip(shape = RoundedCornerShape(8.dp))
-        )
-    }
-}
 
 data class Student(
+    val id : String = "",
     val department: String = "",
     val hometown: String = "",
     val imageUrl: String = "",

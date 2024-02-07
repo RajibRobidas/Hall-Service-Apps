@@ -55,9 +55,12 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
-class UpdateAuthorityActivity : ComponentActivity() {
+class AddCanteenActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -66,7 +69,7 @@ class UpdateAuthorityActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White
                 ) {
-                    UpdateAuthorityScreen()
+                    AddCanteenScreen()
                 }
             }
         }
@@ -74,12 +77,12 @@ class UpdateAuthorityActivity : ComponentActivity() {
 }
 
 @Composable
-fun UpdateAuthorityScreen() {
+fun AddCanteenScreen() {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
-    var authorityName by remember { mutableStateOf("") }
-    var designation by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
+    var addCanteenName by remember { mutableStateOf("") }
+    var price by remember { mutableStateOf("") }
+    var time by remember { mutableStateOf("") }
+    var date by remember { mutableStateOf("") }
 
     val context = LocalContext.current
     val storageReference = FirebaseStorage.getInstance().reference
@@ -96,9 +99,9 @@ fun UpdateAuthorityScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        HeaderSectionAuthority()
+        HeaderSectionAddCanteen()
 
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacer(modifier = Modifier.size(40.dp))
 
         LazyColumn {
             item {
@@ -108,45 +111,39 @@ fun UpdateAuthorityScreen() {
                         .padding(vertical = 10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    LoadImage { uri ->
+                    LoadImageAC { uri ->
                         imageUri = uri
                     }
                     Spacer(modifier = Modifier.width(15.dp))
 
-                    ShowImage(imageUri)
+                    ShowImageAC(imageUri)
 
                 }
 
                 // Show selected image
 
                 OutlinedTextField(
-                    value = authorityName,
-                    onValueChange = { authorityName = it },
-                    label = { Text("Name") },
+                    value = addCanteenName,
+                    onValueChange = { addCanteenName = it },
+                    label = { Text("Food Name") },
                     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
                 )
                 OutlinedTextField(
-                    value = designation,
-                    onValueChange = { designation = it },
-                    label = { Text("Designation") },
+                    value = price,
+                    onValueChange = { price = it },
+                    label = { Text("Price") },
                     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
                 )
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
+                    value = time,
+                    onValueChange = { time = it },
+                    label = { Text("Time") },
                     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
                 )
-                OutlinedTextField(
-                    value = phoneNumber,
-                    onValueChange = { phoneNumber = it },
-                    label = { Text("Phone Number") },
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-                )
-                // Similar OutlinedTextField for other authority fields
+
+                date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
                 Spacer(modifier = Modifier.size(16.dp))
-
                 if (isLoading) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -165,21 +162,22 @@ fun UpdateAuthorityScreen() {
                 Button(
                     onClick = {
                         // Validate authority information
-                        if (authorityName.isNotEmpty() && designation.isNotEmpty() &&
-                            phoneNumber.isNotEmpty() && email.isNotEmpty() && imageUri != null) {
+                        if (addCanteenName.isNotEmpty() && price.isNotEmpty() &&
+                            time.isNotEmpty() && imageUri != null) {
                             showDialog = true
                             isLoading= true
-                            uploadAuthorityToFirebase(
+                            addCanteenToFirebase(
                                 context,
                                 imageUri,
-                                authorityName,
-                                designation,
-                                phoneNumber,
-                                email,
+                                addCanteenName,
+                                price,
+                                time,
+                                date,
                                 storageReference,
                                 databaseReference
                             )
-                            //showDialog = false
+                           // isLoading= false
+                           // showDialog = false
 
                         } else {
                             Toast.makeText(
@@ -191,8 +189,9 @@ fun UpdateAuthorityScreen() {
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth()
                 ) {
-                    Text("Upload Authority Information")
+                    Text("Upload Food Information")
                 }
+
                 if (showDialog) {
                     AlertDialog(
                         onDismissRequest = {
@@ -224,22 +223,10 @@ fun UpdateAuthorityScreen() {
 }
 
 @Composable
-fun ProgressDialog() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f))
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(color = Color.Green)
-    }
-}
-@Composable
-fun LoadImage(
+fun LoadImageAC(
     onImageSelected: (Uri) -> Unit
 ) {
-    var uri by remember { mutableStateOf<Uri?>(null) }
+    //var uri by remember { mutableStateOf<Uri?>(null) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -274,7 +261,7 @@ fun LoadImage(
 
 
 @Composable
-fun ShowImage(imageUri: Uri?) {
+fun ShowImageAC(imageUri: Uri?) {
     if (imageUri != null) {
         // Show the selected image
         Image(
@@ -289,7 +276,7 @@ fun ShowImage(imageUri: Uri?) {
 }
 
 @Composable
-fun HeaderSectionAuthority() {
+fun HeaderSectionAddCanteen() {
 
     val yellow = Color(0xFF40E48A)
     val context = LocalContext.current
@@ -317,7 +304,7 @@ fun HeaderSectionAuthority() {
         )
 
         Text(
-            text = "Add Authority",
+            text = "Add Canteen Food",
             color = Color.Black,
             fontSize = 20.sp,
             modifier = Modifier
@@ -329,16 +316,16 @@ fun HeaderSectionAuthority() {
     }
 }
 
-
-fun uploadAuthorityToFirebase(
+fun addCanteenToFirebase(
     context: Context,
     imageUri: Uri?,
-    authorityName: String,
-    designation: String,
-    phoneNumber: String,
-    email: String,
+    addCanteenName: String,
+    price: String,
+    time: String,
+    date: String,
     storageReference: StorageReference,
-    databaseReference: DatabaseReference
+    databaseReference: DatabaseReference,
+
 ) {
     imageUri?.let { uri ->
         val imageRef = storageReference.child("images/${UUID.randomUUID()}")
@@ -348,27 +335,27 @@ fun uploadAuthorityToFirebase(
                     val imageUrl = uri.toString()
 
                     // Create Authority object
-                    val authority = Authority(
-                        authorityName,
-                        designation,
-                        email,
-                        phoneNumber,
+                    val canteenFood = CanteenFood(
+                        addCanteenName,
+                        price,
+                        time,
+                        date,
                         imageUrl
                     )
 
                     // Push Authority object to Firebase Database
-                    databaseReference.child("authorities").push().setValue(authority)
+                    databaseReference.child("CanteenFoods").push().setValue(canteenFood)
                         .addOnSuccessListener {
                             Toast.makeText(
                                 context,
-                                "Authority information uploaded successfully",
+                                "Food information uploaded successfully",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                         .addOnFailureListener {
                             Toast.makeText(
                                 context,
-                                "Failed to upload authority information",
+                                "Failed to upload Food information",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -384,18 +371,17 @@ fun uploadAuthorityToFirebase(
     }
 }
 
-data class Authority(
-    val name: String,
-    val designation: String,
-    val email: String,
-    val phoneNumber: String,
-    val imageUrl: String
+data class CanteenFood(
+    val addCanteenName: String = "",
+    val price: String = "",
+    val time: String = "",
+    val date: String = "",
+    val imageUrl: String = ""
 )
-
 @Preview(showBackground = true)
 @Composable
-fun UpdateAuthorityPreview() {
+fun AddCanteenScreenPreview() {
     HallServiceAppTheme {
-        UpdateAuthorityScreen()
+        AddCanteenScreen()
     }
 }

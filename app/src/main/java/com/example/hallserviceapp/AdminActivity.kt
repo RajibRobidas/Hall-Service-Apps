@@ -70,13 +70,26 @@ fun AdminScreen() {
                 item { Spacer(modifier = Modifier.height(30.dp)) }
                 item { ChangeOption("Delete Notice", R.drawable.delete_notice,"DeleteNoticeActivity") }
                 item { Spacer(modifier = Modifier.height(30.dp)) }
-                // Add more options here using item { }
+
+
+                item { ChangeOption("ADD Dining Food", R.drawable.dyningfood,"AddDiningActivity") }
+                item { Spacer(modifier = Modifier.height(30.dp)) }
+                item { ChangeOption("Delete Dining Food", R.drawable.dyningfood,"DeleteDiningActivity") }
+                item { Spacer(modifier = Modifier.height(30.dp)) }
+                item { ChangeOption("ADD Canteen Food", R.drawable.foodd,"AddCanteenActivity") }
+                item { Spacer(modifier = Modifier.height(30.dp)) }
+                item { ChangeOption("Delete Canteen Food", R.drawable.foodd,"DeleteCanteenActivity") }
+                item { Spacer(modifier = Modifier.height(30.dp)) }
+
+
                 item { ChangeOption("Add User", R.drawable.placeholder_a,"AddUserActivity") }
                 item { Spacer(modifier = Modifier.height(30.dp)) }
                 item { ChangeOption("Delete User", R.drawable.placeholder,"DeleteUser") }
                 item { Spacer(modifier = Modifier.height(30.dp)) }
                 item { ChangeOption("Delete Information", R.drawable.icon_account_circle,"DeleteInformation") }
                 item { Spacer(modifier = Modifier.height(30.dp)) }
+
+
                 item { ChangeOption("Add Student", R.drawable.student_p,"StudentActivity") }
                 item { Spacer(modifier = Modifier.height(30.dp)) }
                 item { ChangeOption("Add Office", R.drawable.office_worker,"UpdateOfficeActivity") }
@@ -165,8 +178,12 @@ fun ChangeOption(text: String, iconResId: Int, actName : String) {
                         "UpdateAuthorityActivity" -> Intent(context, UpdateAuthorityActivity::class.java)
                         "SignUpActivity" -> Intent(context, SignUpActivity::class.java)
                         "DeleteUser" -> Intent(context, RemoveUserActivity::class.java)
+                        "AddDiningActivity" -> Intent(context, AddDiningActivity::class.java)
+                        "DeleteDiningActivity" -> Intent(context, DeleteDiningActivity::class.java)
+                        "AddCanteenActivity" -> Intent(context, AddCanteenActivity::class.java)
+                        "DeleteCanteenActivity" -> Intent(context, DeleteCanteenActivity::class.java)
 
-                        // Add other cases here
+
                         else -> return@clickable
                     }
                     context.startActivity(intent)

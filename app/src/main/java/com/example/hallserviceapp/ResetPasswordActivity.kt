@@ -1,6 +1,5 @@
 package com.example.hallserviceapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -10,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -57,6 +57,7 @@ fun ResetPasswordScreen() {
         modifier = Modifier.fillMaxSize(),
     ) {
         val lightBlue = Color(0xFF8FABE7) // Light blue color
+        val context = LocalContext.current
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,6 +67,35 @@ fun ResetPasswordScreen() {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+
+            ) {
+                Text(
+                    text = "Admin",
+                    color = Color(0xFF99B1E6),
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .clickable {
+                            //context.startActivity(Intent(context, FrontAdminActivity::class.java))
+                        }
+                        .padding(vertical = 16.dp)
+                )
+                Text(
+                    text = "Food",
+                    color = Color(0xFF99B1E6),
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .clickable {
+                            //context.startActivity(Intent(context, FrontAdminActivity::class.java))
+                        }
+                        .padding(vertical = 16.dp)
+                )
+            }
+
             Image(
                 painter = painterResource(id = R.drawable.icon_account_circle),
                 contentDescription = null,
@@ -101,7 +131,6 @@ fun ResetPasswordScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            val context = LocalContext.current
             Button(
                 onClick = {
                     if(email == "" || oldPassword == "" || newPassword == "" || confirmPassword == ""){
@@ -151,16 +180,6 @@ fun ResetPasswordScreen() {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
-                text = "Admin",
-                color = Color.Blue,
-                fontSize = 16.sp,
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(Intent(context, FrontAdminActivity::class.java))
-                    }
-                    .padding(vertical = 16.dp)
-            )
         }
     }
 }

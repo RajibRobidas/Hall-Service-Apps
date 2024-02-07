@@ -62,44 +62,12 @@ fun MedicineScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue),
+            .background(lightBlue)
+            .padding(16.dp),
         verticalArrangement = Arrangement.Top,
     ) {
-        // "Food" text at the top
-        Spacer(modifier = Modifier.height(50.dp)) // For spacing
+        HeaderSectionMedicin()
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            verticalAlignment = Alignment.Top
-        ) {
-            // Image on the left side
-            Image(
-                painter = painterResource(id = R.drawable.headline),
-                contentDescription = "headline",
-                modifier = Modifier
-                    .clickable{
-                        context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
-                    }
-                    .padding(end = 10.dp)
-                    .size(width = 100.dp, height = 40.dp)
-            )
-
-            Spacer(modifier = Modifier.width(20.dp)) // For spacing
-
-            Text(
-                text = "Medicine",
-                color = Color.White,
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .background(green, shape = RoundedCornerShape(10.dp))
-                    .padding(12.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-
-            )
-        }
 
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -153,7 +121,39 @@ fun MedicineScreen() {
         }
     }
 }
+@Composable
+fun HeaderSectionMedicin() {
 
+    val context = LocalContext.current
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.headline),
+            contentDescription = "Headline",
+            modifier = Modifier
+                .clickable{
+                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
+                }
+                .size(58.dp)
+                .padding(end = 25.dp)
+        )
+
+        Spacer(modifier = Modifier.width(60.dp)) // For spacing
+
+        Text(
+            text = "Medicine",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .background(Color.White, shape = MaterialTheme.shapes.medium)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        )
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun MedicineScreenPreview() {

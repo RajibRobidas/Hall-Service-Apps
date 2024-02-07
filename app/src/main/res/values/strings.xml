@@ -35,4 +35,11 @@
     <string name="title_activity_delete_student">DeleteStudentActivity</string>
     <string name="title_activity_delete_authority">DeleteAuthorityActivity</string>
     <string name="title_activity_delete_offices">DeleteOfficesActivity</string>
+    <string name="title_activity_read_dining">ReadDiningActivity</string>
+    <string name="title_activity_read_canteen">ReadCanteenActivity</string>
+    <string name="title_activity_add_dining">AddDiningActivity</string>
+    <string name="title_activity_delete_dining">DeleteDiningActivity</string>
+    <string name="title_activity_add_canteen">AddCanteenActivity</string>
+    <string name="title_activity_delete_canteen">DeleteCanteenActivity</string>
+    <string name="title_activity_dynamic_food">DynamicFoodActivity</string>
 </resources>

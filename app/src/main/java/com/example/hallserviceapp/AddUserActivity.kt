@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,37 +71,8 @@ fun AddUserContent() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val context = LocalContext.current
+        HeaderSectionAddUser()
 
-        Row(
-            modifier = Modifier.fillMaxWidth()
-            .padding(10.dp),
-            //horizontalArrangement = Arrangement.Center // Center the items
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.arrow_back),
-                contentDescription = "arrow",
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(Intent(context, AdminActivity::class.java))  // Change to the desired activity
-                    }
-                    .width(40.dp)
-                    .height(40.dp)
-            )
-            //Spacer(modifier = Modifier.width(16.dp))
-            val yellow = Color(0xFF2F98F5)
-
-            Text(
-                text = "Add User",
-                color = Color.Black,
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .background(yellow, shape = RoundedCornerShape(10.dp))
-                    .padding(10.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
         Spacer(modifier = Modifier.height(150.dp))
 
        // Text(
@@ -164,6 +134,46 @@ fun AddUserContent() {
         }
     }
 }
+
+@Composable
+fun HeaderSectionAddUser() {
+    val yellow = Color(0xFF40E48A)
+    val context = LocalContext.current
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp),
+        verticalAlignment = Alignment.Top
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.arrow_back),
+            contentDescription = "arrow",
+            modifier = Modifier
+                .clickable {
+                    context.startActivity(
+                        Intent(
+                            context,
+                            AdminActivity::class.java
+                        )
+                    )
+                }
+                .padding(end = 10.dp)
+                .size(width = 90.dp, height = 30.dp)
+        )
+
+        Text(
+            text = "Add User",
+            color = Color.Black,
+            fontSize = 20.sp,
+            modifier = Modifier
+                .background(yellow, shape = RoundedCornerShape(10.dp))
+                .padding(10.dp)
+                .clip(RoundedCornerShape(8.dp))
+        )
+    }
+}
+
 fun createUserWithEmailAndPassword(email: String, password: String, onComplete: (Boolean, String?) -> Unit) {
     val auth = FirebaseAuth.getInstance()
     auth.createUserWithEmailAndPassword(email, password)

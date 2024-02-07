@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +49,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class OfficeActivity : ComponentActivity() {
+class DeleteCanteenActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -57,7 +58,7 @@ class OfficeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    OfficeScreen()
+                    DeleteCanteenScreen()
                 }
             }
         }
@@ -65,7 +66,7 @@ class OfficeActivity : ComponentActivity() {
 }
 
 @Composable
-fun OfficeScreen() {
+fun DeleteCanteenScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
 
     Column(
@@ -74,14 +75,12 @@ fun OfficeScreen() {
             .background(lightBlue)
             .padding(16.dp)
     ) {
-        HeaderSectionOffices()
-        // SearchSection()
-        OfficeInformationSection()
+        HeaderSectionCanteenDe()
+        DeleteCanteenSections() // Pass the registration number to filter the list
     }
 }
-
 @Composable
-fun HeaderSectionOffices() {
+fun HeaderSectionCanteenDe() {
     val yellow = Color(0xFF40E48A)
     val context = LocalContext.current
 
@@ -92,14 +91,14 @@ fun HeaderSectionOffices() {
         verticalAlignment = Alignment.Top
     ) {
         Image(
-            painter = painterResource(id = R.drawable.headline),
-            contentDescription = "headline",
+            painter = painterResource(id = R.drawable.arrow_back),
+            contentDescription = "arrow",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
                         Intent(
                             context,
-                            UserActivity::class.java
+                            UpdateStudentActivity::class.java
                         )
                     )
                 }
@@ -108,7 +107,7 @@ fun HeaderSectionOffices() {
         )
 
         Text(
-            text = "Office Information",
+            text = "Delete Food",
             color = Color.Black,
             fontSize = 20.sp,
             modifier = Modifier
@@ -119,11 +118,10 @@ fun HeaderSectionOffices() {
         )
     }
 }
-
 @Composable
-fun OfficeInformationSection() {
-    val database = FirebaseDatabase.getInstance().getReference("offices")
-    var officeList by remember { mutableStateOf(listOf<Office>()) }
+fun DeleteCanteenSections() {
+    val database = FirebaseDatabase.getInstance().getReference("CanteenFoods")
+    var canteenFoodsList by remember { mutableStateOf(listOf<CanteenFoods>()) }
     var isLoading by remember { mutableStateOf(true) }
     var isError by remember { mutableStateOf(false) }
 
@@ -131,7 +129,7 @@ fun OfficeInformationSection() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 isLoading = false
-                officeList = snapshot.children.mapNotNull { it.getValue(Office::class.java) }
+                canteenFoodsList = snapshot.children.mapNotNull { it.getValue(CanteenFoods::class.java)?.copy(id = it.key ?: "") }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -144,31 +142,35 @@ fun OfficeInformationSection() {
     if (isLoading) {
         CircularProgressIndicator()
     } else if (isError) {
-        Text("Error loading office information.")
+        Text("Error loading Food information.")
     } else {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(officeList) { office ->
-                OfficeItem(office)
+            items(canteenFoodsList) { canteenFood ->
+                CanteenFoodItemWithDelete(canteenFood){ CanteenFoodId->
+                    database.child(CanteenFoodId).removeValue()
+                }
             }
         }
     }
 }
 
 @Composable
-fun OfficeItem(office: Office) {
-    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+fun CanteenFoodItemWithDelete(canteenFood: CanteenFoods, onDelete: (String) -> Unit) {
+    val context = LocalContext.current
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 8.dp)) {
         Row(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
-            val painter: Painter = rememberImagePainter(office.imageUrl)
+            val painter: Painter = rememberImagePainter(canteenFood.imageUrl)
 
             Image(
                 painter = painter,
-                contentDescription = "Office Image",
+                contentDescription = "Canteen Image",
                 modifier = Modifier
                     .size(80.dp)
                     .padding(start = 8.dp)
@@ -176,35 +178,26 @@ fun OfficeItem(office: Office) {
             Spacer(modifier = Modifier.width(14.dp))
 
             Column(modifier = Modifier.padding(16.dp)) {
-
-                Text(text = "Name:  ${office.name}", style = MaterialTheme.typography.titleMedium)
+                Text(text = "Date: ${canteenFood.date}", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(text = "Designation:  ${office.designation}", style = MaterialTheme.typography.bodyMedium)
+                Text(text = "Time: ${canteenFood.time}", style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Email:  ${office.email}", style = MaterialTheme.typography.bodySmall)
+                Text(text = "FoodName: ${canteenFood.addCanteenName}", style = MaterialTheme.typography.bodyMedium)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Phone Number:  ${office.phoneNumber}", style = MaterialTheme.typography.bodySmall)
+                Text(text = "Price: ${canteenFood.price}", style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(4.dp))
-                // Add more details or actions for each office item here
-
+                Button(onClick = { onDelete(canteenFood.id) }) {
+                    Text("Delete")
+                }
             }
         }
     }
 }
 
-data class Office(
-    val id: String = "",
-    val designation: String = "",
-    val email: String = "",
-    val imageUrl: String = "",
-    val name: String = "",
-    val phoneNumber: String = ""
-)
-
 @Preview(showBackground = true)
 @Composable
-fun OfficeScreenPreview() {
+fun DeleteCanteenPreview() {
     HallServiceAppTheme {
-        OfficeScreen()
+        DeleteCanteenScreen()
     }
 }

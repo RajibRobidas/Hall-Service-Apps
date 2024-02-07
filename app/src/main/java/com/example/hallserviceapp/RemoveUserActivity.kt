@@ -18,7 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,35 +75,7 @@ fun DeleteUserContent() { // Receive context as a parameter
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.arrow_back),
-                contentDescription = "arrow",
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(Intent(context, AdminActivity::class.java))
-                    }
-                    .width(40.dp)
-                    .height(40.dp)
-            )
-
-            val green = Color(0xFF52BE98) // Light blue color
-
-            Text(
-                text = "Remove User",
-                color = Color.White,
-                fontSize = 25.sp,
-                modifier = Modifier
-                    .background(green, shape = RoundedCornerShape(10.dp))
-                    .padding(10.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
+        HeaderSectionRemoveUser()
 
         Spacer(modifier = Modifier.height(170.dp))
 
@@ -141,8 +112,45 @@ fun DeleteUserContent() { // Receive context as a parameter
         }.show()
     }
 }
+@Composable
+fun HeaderSectionRemoveUser() {
+    val yellow = Color(0xFF40E48A)
+    val context = LocalContext.current
 
-// Function to remove user by email
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp),
+        verticalAlignment = Alignment.Top
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.arrow_back),
+            contentDescription = "arrow",
+            modifier = Modifier
+                .clickable {
+                    context.startActivity(
+                        Intent(
+                            context,
+                            AdminActivity::class.java
+                        )
+                    )
+                }
+                .padding(end = 10.dp)
+                .size(width = 90.dp, height = 30.dp)
+        )
+
+        Text(
+            text = "Remove User",
+            color = Color.Black,
+            fontSize = 20.sp,
+            modifier = Modifier
+                .background(yellow, shape = RoundedCornerShape(10.dp))
+                .padding(10.dp)
+                .clip(RoundedCornerShape(8.dp))
+        )
+    }
+}
+
 private fun removeUserByEmail(context: Context, email: String, onComplete: () -> Unit) {
     val auth = FirebaseAuth.getInstance()
     val user = auth.currentUser
@@ -182,7 +190,8 @@ private fun removeUserByEmail(context: Context, email: String, onComplete: () ->
                                     Toast.makeText(context, "Failed to sign in", Toast.LENGTH_SHORT).show()
                                 }
                             }
-                    } else {
+                    }
+                    else {
                         // User does not exist with the provided email
                         if (task.exception is FirebaseAuthInvalidUserException) {
                             // User does not exist with the provided email
@@ -190,14 +199,17 @@ private fun removeUserByEmail(context: Context, email: String, onComplete: () ->
                         } else {
                             // Other errors
                             Toast.makeText(context, "Failed to fetch user information", Toast.LENGTH_SHORT).show()
-                        }                    }
-                } else {
+                        }
+                    }
+                }
+                else {
                     // Task to fetch sign-in methods failed
                     Toast.makeText(context, "Failed to fetch sign-in methods", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-    } else {
+    }
+    else {
         // User is not authenticated
         Toast.makeText(context, "User is not authenticated", Toast.LENGTH_SHORT).show()
     }

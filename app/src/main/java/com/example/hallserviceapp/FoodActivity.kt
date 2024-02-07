@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -58,47 +59,13 @@ fun FoodScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue),
+            .background(lightBlue)
+            .padding(16.dp),
         verticalArrangement = Arrangement.Top,
     ) {
-        // "Food" text at the top
-        Spacer(modifier = Modifier.height(30.dp)) // For spacing
+        HeaderSectionFood()
+        val lightGoldB = Color(0xFFE1E6E5)
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            verticalAlignment = Alignment.Top
-        ) {
-            // Image on the left side
-            Image(
-                painter = painterResource(id = R.drawable.headline),
-                contentDescription = "headline",
-                modifier = Modifier
-                    .clickable{
-                        context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
-                    }
-                    .padding(end = 10.dp)
-                    .size(width = 100.dp, height = 40.dp)
-            )
-
-            Spacer(modifier = Modifier.width(10.dp)) // For spacing
-
-            Text(
-                text = "Food",
-                color = Color.White,
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .background(gray)
-                    .width(150.dp)
-                    .padding(12.dp),
-                    //.clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-
-            )
-        }
-
-        // Remaining content in a Box for central alignment
         Box(
             contentAlignment = Alignment.TopCenter,
             modifier = Modifier.fillMaxSize()
@@ -110,18 +77,21 @@ fun FoodScreen() {
                     .padding(16.dp)
             ) {
                 // Your other UI elements go here
-                // For example, a row with an image and text might look like this:
+                Spacer(modifier = Modifier.height(20.dp)) // For spacing
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.padding(vertical = 8.dp)
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .clickable{
+                            context.startActivity(Intent(context, DiningActivity::class.java))  // Change to the desired activity
+                        }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.dyningfood),
                         contentDescription = "Dining",
                         modifier = Modifier
-                            .clickable{
-                                context.startActivity(Intent(context, DiningActivity::class.java))  // Change to the desired activity
-                            }
+
                             .size(130.dp)
                             .padding(16.dp)
 
@@ -131,26 +101,27 @@ fun FoodScreen() {
                         text = "Dining",
                         fontSize = 34.sp,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier//.padding(start = 16.dp)
                             .fillMaxWidth()
                     )
                 }
 
-                Spacer(modifier = Modifier.height(20.dp)) // For spacing
+                //Spacer(modifier = Modifier.height(20.dp)) // For spacing
 
                 // Add more Rows or other components as needed
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(vertical = 8.dp)
-                        .fillMaxWidth()
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .clickable{
+                            context.startActivity(Intent(context, CanteenActivity::class.java))  // Change to the desired activity
+                        }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.foodd),
                         contentDescription = "Canteen",
                         modifier = Modifier
-                            .clickable{
-                                context.startActivity(Intent(context, CanteenActivity::class.java))  // Change to the desired activity
-                            }
+
                             .size(130.dp)
                             .padding(16.dp)
 
@@ -159,24 +130,26 @@ fun FoodScreen() {
                         text = "Canteen",
                         fontSize = 34.sp,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier//.padding(start = 16.dp)
                             .fillMaxWidth()
                     )
                 }
 
-                Spacer(modifier = Modifier.height(20.dp)) // For spacing
+                //Spacer(modifier = Modifier.height(20.dp)) // For spacing
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(vertical = 8.dp)
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .clickable{
+                            context.startActivity(Intent(context, ShopActivity::class.java))  // Change to the desired activity
+                        }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.shop_food),
                         contentDescription = "Shop",
                         modifier = Modifier
-                            .clickable{
-                                context.startActivity(Intent(context, ShopActivity::class.java))  // Change to the desired activity
-                            }
+
                             .size(130.dp)
                             .padding(16.dp)
 
@@ -186,15 +159,80 @@ fun FoodScreen() {
                         text = "Food Shop",
                         fontSize = 34.sp,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier//.padding(start = 16.dp)
                             .fillMaxWidth()
+                    )
+                }
+                Spacer(modifier = Modifier.height(40.dp)) // For spacing
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .padding(12.dp)
+
+
+                ) {
+                    Text(
+                        text = "Enter Dining Food",
+                        fontSize = 15.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier//.padding(start = 16.dp)
+                            .clickable{
+                                context.startActivity(Intent(context, ReadDiningActivity::class.java))  // Change to the desired activity
+                            }
+                    )
+                    //Spacer(modifier = Modifier.width(12.dp)) // For spacing
+                    Text(
+                        text = "Enter Canteen Food",
+                        fontSize = 15.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier//.padding(start = 16.dp)
+                            .clickable{
+                                context.startActivity(Intent(context, ReadCanteenActivity::class.java))  // Change to the desired activity
+                            }
                     )
                 }
             }
         }
     }
 }
+@Composable
+fun HeaderSectionFood() {
 
+    val context = LocalContext.current
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.headline),
+            contentDescription = "Headline",
+            modifier = Modifier
+                .clickable{
+                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
+                }
+                .size(58.dp)
+                .padding(end = 25.dp)
+        )
+
+        Spacer(modifier = Modifier.width(65.dp)) // For spacing
+
+        Text(
+            text = "Food",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .background(Color.White, shape = MaterialTheme.shapes.medium)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        )
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun FoodScreenPreview() {

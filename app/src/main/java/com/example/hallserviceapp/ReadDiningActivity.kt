@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,7 +48,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class OfficeActivity : ComponentActivity() {
+class ReadDiningActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -57,7 +57,7 @@ class OfficeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    OfficeScreen()
+                    ReadDiningScreen()
                 }
             }
         }
@@ -65,7 +65,7 @@ class OfficeActivity : ComponentActivity() {
 }
 
 @Composable
-fun OfficeScreen() {
+fun ReadDiningScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
 
     Column(
@@ -74,14 +74,47 @@ fun OfficeScreen() {
             .background(lightBlue)
             .padding(16.dp)
     ) {
-        HeaderSectionOffices()
-        // SearchSection()
-        OfficeInformationSection()
+        HeaderSectionDiningRe()
+        ReadDiningSection()
     }
 }
 
 @Composable
-fun HeaderSectionOffices() {
+fun ReadDiningSection() {
+    val database = FirebaseDatabase.getInstance().getReference("DiningFoods")
+    var readDiningList by remember { mutableStateOf(listOf<DiningFoods>()) }
+    var isLoading by remember { mutableStateOf(true) }
+    var isError by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = Unit) {
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                isLoading = false
+                readDiningList = snapshot.children.mapNotNull { it.getValue(DiningFoods::class.java) }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                isLoading = false
+                isError = true
+            }
+        })
+    }
+
+    if (isLoading) {
+        CircularProgressIndicator()
+    } else if (isError) {
+        Text("Error loading Food information.")
+    } else {
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(readDiningList) { diningFood ->
+                DiningFoodItem(diningFood)
+            }
+        }
+    }
+}
+
+@Composable
+fun HeaderSectionDiningRe() {
     val yellow = Color(0xFF40E48A)
     val context = LocalContext.current
 
@@ -93,7 +126,7 @@ fun HeaderSectionOffices() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.headline),
-            contentDescription = "headline",
+            contentDescription = "arrow",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
@@ -108,7 +141,7 @@ fun HeaderSectionOffices() {
         )
 
         Text(
-            text = "Office Information",
+            text = "Food For Today",
             color = Color.Black,
             fontSize = 20.sp,
             modifier = Modifier
@@ -121,90 +154,83 @@ fun HeaderSectionOffices() {
 }
 
 @Composable
-fun OfficeInformationSection() {
-    val database = FirebaseDatabase.getInstance().getReference("offices")
-    var officeList by remember { mutableStateOf(listOf<Office>()) }
-    var isLoading by remember { mutableStateOf(true) }
-    var isError by remember { mutableStateOf(false) }
-
-    LaunchedEffect(key1 = Unit) {
-        database.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                isLoading = false
-                officeList = snapshot.children.mapNotNull { it.getValue(Office::class.java) }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                isLoading = false
-                isError = true
-            }
-        })
-    }
-
-    if (isLoading) {
-        CircularProgressIndicator()
-    } else if (isError) {
-        Text("Error loading office information.")
-    } else {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(officeList) { office ->
-                OfficeItem(office)
-            }
-        }
-    }
-}
-
-@Composable
-fun OfficeItem(office: Office) {
+fun DiningFoodItem(diningFood: DiningFoods) {
     Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Row(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
 
-            val painter: Painter = rememberImagePainter(office.imageUrl)
+            ) {
+            val lightGold = Color(0xFFC4BFB0)
+            val lightGoldB = Color(0xFFEBE6C1)
+
+            val painter: Painter = rememberImagePainter(diningFood.imageUrl)
+            Column(modifier = Modifier.padding(16.dp)
+                    .background(lightGold, shape = RoundedCornerShape(10.dp))
+                .padding(12.dp),
+            ) {
+
+                Text(text = "Date:  ${diningFood.date}",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .padding(6.dp)
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(text = "Time:  ${diningFood.time}",
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .padding(6.dp)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = "FoodName:  ${diningFood.addDiningName}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .padding(6.dp)
+
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = "price:  ${diningFood.price}",
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .background(lightGoldB, shape = RoundedCornerShape(10.dp))
+                        .padding(6.dp)
+
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+
+            }
+            //Spacer(modifier = Modifier.width(14.dp))
 
             Image(
                 painter = painter,
-                contentDescription = "Office Image",
+                contentDescription = "Food Image",
                 modifier = Modifier
-                    .size(80.dp)
-                    .padding(start = 8.dp)
+                    .size(140.dp)
+                    .padding(20.dp)
             )
-            Spacer(modifier = Modifier.width(14.dp))
 
-            Column(modifier = Modifier.padding(16.dp)) {
-
-                Text(text = "Name:  ${office.name}", style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(text = "Designation:  ${office.designation}", style = MaterialTheme.typography.bodyMedium)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Email:  ${office.email}", style = MaterialTheme.typography.bodySmall)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Phone Number:  ${office.phoneNumber}", style = MaterialTheme.typography.bodySmall)
-                Spacer(modifier = Modifier.height(4.dp))
-                // Add more details or actions for each office item here
-
-            }
         }
     }
 }
 
-data class Office(
+data class DiningFoods(
     val id: String = "",
-    val designation: String = "",
-    val email: String = "",
-    val imageUrl: String = "",
-    val name: String = "",
-    val phoneNumber: String = ""
+    val addDiningName: String = "",
+    val price: String = "",
+    val date: String = "",
+    val time: String = "",
+    val imageUrl: String = ""
 )
-
 @Preview(showBackground = true)
 @Composable
-fun OfficeScreenPreview() {
+fun ReadDiningScreenPreview() {
     HallServiceAppTheme {
-        OfficeScreen()
+        ReadDiningScreen()
     }
 }

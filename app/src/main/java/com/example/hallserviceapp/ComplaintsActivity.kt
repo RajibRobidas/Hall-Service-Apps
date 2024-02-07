@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -32,15 +33,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.hallserviceapp.ui.theme.HallServiceAppTheme
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -83,16 +81,13 @@ fun ComplaintsScreen() {
             .padding(16.dp)
 
     ) {
-        HeaderSection()
+        HeaderSectionComplaints()
         WriteSection()
     }
 }
 
 @Composable
-fun HeaderSection() {
-    val gray = Color(0xFFBA6FBD)
-    val green = Color(0xFF43B83A)
-    val yellow = Color(0xFFC5B685)
+fun HeaderSectionComplaints() {
 
     val context = LocalContext.current
 
@@ -100,36 +95,27 @@ fun HeaderSection() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.Top
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        // Image on the left side
         Image(
             painter = painterResource(id = R.drawable.headline),
-            contentDescription = "headline",
+            contentDescription = "Headline",
             modifier = Modifier
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            UserActivity::class.java
-                        )
-                    )  // Change to the desired activity
+                .clickable{
+                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
                 }
-                .padding(end = 10.dp)
-                .size(width = 100.dp, height = 40.dp)
+                .size(58.dp)
+                .padding(end = 25.dp)
         )
 
-        //Spacer(modifier = Modifier.width(5.dp)) // For spacing
+        Spacer(modifier = Modifier.width(45.dp)) // For spacing
 
         Text(
             text = "Complaints",
-            color = Color.White,
-            fontSize = 25.sp,
+            style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
-                .background(green, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
+                .background(Color.White, shape = MaterialTheme.shapes.medium)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         )
     }
 }

@@ -6,20 +6,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -64,14 +66,39 @@ fun MainScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar() {
-    val lightblueTo = Color(0xFFD8D029) // Light blue color
+    val lightblueTo = Color(0xFFFFFFFF) // Light blue color
+    val context = LocalContext.current
+    Row (
 
-    TopAppBar(
-        title = { Text(text = "Hall App") },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
+            .fillMaxWidth()
             .background(lightblueTo) // Set the Topbackground color here
 
-    )
+    ){
+
+        TopAppBar(
+            title = { Text(text = "Hall App") },
+            modifier = Modifier
+                .width(270.dp)
+                .background(lightblueTo) // Set the Topbackground color here
+
+        )
+        Spacer(modifier = Modifier.width(30.dp))
+
+        Text(
+            text = "Control",
+            color = Color(0xFFD8D4D4),
+            fontSize = 15.sp,  // Adjusted for better fit
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+                .clickable {
+                    context.startActivity(Intent(context, FrontAdminActivity::class.java))
+                },
+        )
+    }
 }
 
 @Composable
@@ -88,7 +115,7 @@ fun MainContent(padding: PaddingValues) {
         verticalArrangement = Arrangement.Center
     ) {
         CircularImageView(imageRes = R.drawable.sust_logo, size = 120.dp)
-        //Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         CircularImageView(imageRes = R.drawable.hall_pic, size = 290.dp, height = 180.dp)
         HallTitle()
         EnterButton()
@@ -110,7 +137,7 @@ fun CircularImageView(imageRes: Int, size: Dp, height: Dp = size) {
             modifier = Modifier.fillMaxSize()
         )
     }
-    Spacer(modifier = Modifier.height(30.dp))
+    //Spacer(modifier = Modifier.height(30.dp))
 
 }
 
@@ -122,8 +149,8 @@ fun HallTitle() {
         fontSize = 30.sp,  // Adjusted for better fit
         modifier = Modifier
             .padding(vertical = 16.dp)
-            .fillMaxWidth()
-            .background(color = Color(51, 165, 125, 255),shape = MaterialTheme.shapes.medium),
+            .fillMaxWidth(),
+            //.background(color = Color(51, 165, 125, 255),shape = MaterialTheme.shapes.medium),
         textAlign = TextAlign.Center
     )
 }
