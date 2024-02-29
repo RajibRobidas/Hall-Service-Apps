@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -57,26 +58,39 @@ fun UserScreen() {
     ) {
         val lightBlue = Color(0xFF8FABE7) // Light blue color
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
+        Box(
             modifier = Modifier
-                .background(lightBlue) // Set the background color here
-                .padding(30.dp)
-
+                .fillMaxSize()
         ) {
-            Head()
-            Spacer(modifier = Modifier.height(20.dp))
-            Row1()
-            //Spacer(modifier = Modifier.height(16.dp))
-            Row2()
-            //Spacer(modifier = Modifier.height(16.dp))
-            Row3()
-            //Spacer(modifier = Modifier.height(16.dp))
-            Row4()
-            //Spacer(modifier = Modifier.height(16.dp))
-            Row5()
+            // Add the background image
+            Image(
+                painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+                contentDescription = null, // Content description can be null for decorative images
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top,
+                modifier = Modifier
+                    //.background(lightBlue) // Set the background color here
+                    .padding(30.dp)
+
+            ) {
+                Head()
+                Spacer(modifier = Modifier.height(20.dp))
+                Row1()
+                //Spacer(modifier = Modifier.height(16.dp))
+                Row2()
+                //Spacer(modifier = Modifier.height(16.dp))
+                Row3()
+                //Spacer(modifier = Modifier.height(16.dp))
+                Row4()
+                //Spacer(modifier = Modifier.height(16.dp))
+                Row5()
+            }
         }
+
     }
 }
 
@@ -106,7 +120,8 @@ fun Head() {
             modifier = Modifier.padding(8.dp)
                 .fillMaxWidth(),
             //.width(200.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = Color.White
         )
     }
 }
@@ -138,7 +153,8 @@ fun Row1() {
             Text(
                 text = "Authority",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
 
@@ -164,7 +180,8 @@ fun Row1() {
             Text(
                 text = "Notice",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
     }
@@ -198,7 +215,8 @@ fun Row2() {
             Text(
                 text = "Office",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
@@ -223,7 +241,8 @@ fun Row2() {
             Text(
                 text = "Students",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
     }
@@ -257,7 +276,8 @@ fun Row3() {
             Text(
                 text = "Food",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
@@ -282,7 +302,8 @@ fun Row3() {
             Text(
                 text = "Medicine",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
     }
@@ -316,7 +337,8 @@ fun Row4() {
             Text(
                 text = "Services",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
@@ -341,7 +363,8 @@ fun Row4() {
             Text(
                 text = "Complaints",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
     }
@@ -376,7 +399,8 @@ fun Row5() {
             Text(
                 text = "Sports",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
@@ -401,7 +425,8 @@ fun Row5() {
             Text(
                 text = "Contacts",
                 fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
             )
         }
     }

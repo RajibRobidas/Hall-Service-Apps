@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,9 +20,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,8 +39,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,21 +74,35 @@ class StudentsInformationActivity : ComponentActivity() {
 fun StudentsInformationScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp)
     ) {
-        HeaderSectionStudent()
-        // SearchSection()
-        StudentsInformationSection()
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp)
+        ) {
+            HeaderSectionStudent()
+            // SearchSection()
+            StudentsInformationSection()
+        }
     }
 }
 @Composable
 fun HeaderSectionStudent() {
     val yellow = Color(0xFF40E48A)
     val context = LocalContext.current
+
+    Spacer(modifier = Modifier.height(15.dp))
 
     Row(
         modifier = Modifier
@@ -111,7 +131,7 @@ fun HeaderSectionStudent() {
             color = Color.Black,
             fontSize = 20.sp,
             modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
+                .background(Color.White, shape = RoundedCornerShape(10.dp))
                 .padding(10.dp)
                 .clip(RoundedCornerShape(8.dp)),
             textAlign = TextAlign.Center
@@ -141,7 +161,19 @@ fun StudentsInformationSection() {
     }
 
     if (isLoading) {
-        CircularProgressIndicator()
+        //CircularProgressIndicator()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator()
+            Text(
+                text = "Loading... Please wait",
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.Gray
+            )
+        }
     } else if (isError) {
         Text("Error loading student information.")
     } else {
@@ -152,10 +184,94 @@ fun StudentsInformationSection() {
         }
     }
 }
-
 @Composable
 fun StudentItem(student: Student) {
-    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    val gree = Color(0xFF36A2D8)
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            //.background(Color.White) ,// Set a white background color for the card
+        //elevation = 4.dp // Add elevation for a shadow effect
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val painter: Painter = rememberImagePainter(student.imageUrl)
+
+                Image(
+                    painter = painter,
+                    contentDescription = "Student Image",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape) // Clip the image to a circle shape
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = student.name,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF3D82D5)
+
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Registration: ${student.registrationNumber}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Department: ${student.department}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = gree
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Hometown: ${student.hometown}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = gree
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Phone: ${student.phoneNumber}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = gree
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Room No: ...",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = gree
+                    )
+                }
+            }
+            Divider( // Add a divider line between student items
+                color = Color.Black,
+                thickness = 2.dp,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun StudentItem2(student: Student) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
         Row(
             modifier = Modifier
                 .padding(vertical = 8.dp)
@@ -175,17 +291,34 @@ fun StudentItem(student: Student) {
             )
             Spacer(modifier = Modifier.width(14.dp))
 
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
 
-                Text(text = "Name:  ${student.name}",  style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = "Name:  ${student.name}",
+                    style = MaterialTheme.typography.titleMedium
+                )
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(text = "Registration Number:  ${student.registrationNumber}", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "Registration Number:  ${student.registrationNumber}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Department:  ${student.department}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    text = "Department:  ${student.department}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Hometown:  ${student.hometown}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    text = "Hometown:  ${student.hometown}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Phone Number:  ${student.phoneNumber}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    text = "Phone Number:  ${student.phoneNumber}",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 // Add more details or actions for each student item here
 

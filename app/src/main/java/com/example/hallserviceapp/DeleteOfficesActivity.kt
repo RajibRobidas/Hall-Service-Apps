@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -109,14 +111,26 @@ fun HeaderSectionOfficeDe() {
 fun DeleteOfficeScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp)
     ) {
-        HeaderSectionOfficeDe()
-        DeleteOfficeSections() // Pass the registration number to filter the list
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp)
+        ) {
+            HeaderSectionOfficeDe()
+            DeleteOfficeSections() // Pass the registration number to filter the list
+        }
     }
 }
 

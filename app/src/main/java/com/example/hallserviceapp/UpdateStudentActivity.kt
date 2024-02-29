@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -60,135 +61,148 @@ fun UpdateStudentScreen() {
     val yellow = Color(0xFFC5B685)
 
     val context = LocalContext.current
-    Column(
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue, shape = RoundedCornerShape(10.dp)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
     ) {
-
-        Spacer(modifier = Modifier.height(30.dp)) // For spacing
-
-        Row(
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            verticalAlignment = Alignment.Top
+                .fillMaxSize(),
+                    //.background(lightBlue, shape = RoundedCornerShape(10.dp)),
+                    horizontalAlignment = Alignment . CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
         ) {
-            // Image on the left side
-            Image(
-                painter = painterResource(id = R.drawable.arrow_back),
-                contentDescription = "arrow",
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                AdminActivity::class.java
-                            )
-                        )  // Change to the desired activity
-                    }
-                    .padding(end = 10.dp)
-                    .size(width = 90.dp, height = 40.dp)
-            )
 
-            Spacer(modifier = Modifier.width(2.dp)) // For spacing
+            Spacer(modifier = Modifier.height(30.dp)) // For spacing
 
-            Text(
-                text = "Delete Information",
-                color = Color.White,
-                fontSize = 20.sp,
+            Row(
                 modifier = Modifier
-                    .background(green, RoundedCornerShape(15.dp))
-                    .padding(12.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
-        Spacer(modifier = Modifier.height(100.dp)) // For spacing
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                verticalAlignment = Alignment.Top
+            ) {
+                // Image on the left side
+                Image(
+                    painter = painterResource(id = R.drawable.arrow_back),
+                    contentDescription = "arrow",
+                    modifier = Modifier
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    AdminActivity::class.java
+                                )
+                            )  // Change to the desired activity
+                        }
+                        .padding(end = 10.dp)
+                        .size(width = 90.dp, height = 40.dp)
+                )
 
-        Box(
-            contentAlignment = Alignment.TopCenter,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        ) {
-            Text(
-                text = "Delete Student",
-                color = Color.White,
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .width(150.dp)
-                    .background(Color.Gray, RoundedCornerShape(15.dp))
-                    .padding(12.dp)
-                    .clickable {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                DeleteStudentActivity::class.java
-                            )
-                        )  // Change to the desired activity
-                    }
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
-        Spacer(modifier = Modifier.height(50.dp)) // For spacing
+                Spacer(modifier = Modifier.width(2.dp)) // For spacing
 
-        Box(
-            contentAlignment = Alignment.TopCenter,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        ) {
-            Text(
-                text = "Delete Offices",
-                color = Color.White,
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .width(150.dp)
-                    .background(Color.Gray, RoundedCornerShape(15.dp))
-                    .padding(12.dp)
-                    .clickable {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                DeleteOfficesActivity::class.java
-                            )
-                        )  // Change to the desired activity
-                    }
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
-        Spacer(modifier = Modifier.height(50.dp)) // For spacing
+                Text(
+                    text = "Delete Information",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .background(green, RoundedCornerShape(15.dp))
+                        .padding(12.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    textAlign = TextAlign.Center
+                )
+            }
+            Spacer(modifier = Modifier.height(100.dp)) // For spacing
 
-        Box(
-            contentAlignment = Alignment.TopCenter,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        ) {
-            Text(
-                text = "Delete Authority",
-                color = Color.White,
-                fontSize = 20.sp,
+            Box(
+                contentAlignment = Alignment.TopCenter,
                 modifier = Modifier
-                    .width(150.dp)
-                    .background(Color.Gray, RoundedCornerShape(15.dp))
-                    .padding(12.dp)
-                    .clickable {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                DeleteAuthorityActivity::class.java
-                            )
-                        )  // Change to the desired activity
-                    }
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(
+                    text = "Delete Student",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .width(150.dp)
+                        .background(Color.Gray, RoundedCornerShape(15.dp))
+                        .padding(12.dp)
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    DeleteStudentActivity::class.java
+                                )
+                            )  // Change to the desired activity
+                        }
+                        .clip(RoundedCornerShape(8.dp)),
+                    textAlign = TextAlign.Center
+                )
+            }
+            Spacer(modifier = Modifier.height(50.dp)) // For spacing
+
+            Box(
+                contentAlignment = Alignment.TopCenter,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(
+                    text = "Delete Offices",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .width(150.dp)
+                        .background(Color.Gray, RoundedCornerShape(15.dp))
+                        .padding(12.dp)
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    DeleteOfficesActivity::class.java
+                                )
+                            )  // Change to the desired activity
+                        }
+                        .clip(RoundedCornerShape(8.dp)),
+                    textAlign = TextAlign.Center
+                )
+            }
+            Spacer(modifier = Modifier.height(50.dp)) // For spacing
+
+            Box(
+                contentAlignment = Alignment.TopCenter,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(
+                    text = "Delete Authority",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .width(150.dp)
+                        .background(Color.Gray, RoundedCornerShape(15.dp))
+                        .padding(12.dp)
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    DeleteAuthorityActivity::class.java
+                                )
+                            )  // Change to the desired activity
+                        }
+                        .clip(RoundedCornerShape(8.dp)),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }

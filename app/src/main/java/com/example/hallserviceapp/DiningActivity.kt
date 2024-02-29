@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,18 +53,31 @@ class DiningActivity : ComponentActivity() {
 
 @Composable
 fun DiningScreen() {
-    Column(
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF8FABE7)) // Background color of the entire screen
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HeaderSection("Dining")
-        MealSection("Breakfast", "8:00 am", "Khichuri - Egg - Dal")
-        MealSection("Lunch", "12:30 pm", "Chicken, Fish, Egg, Vegetable, Murighanto, Dal")
-        MealSection("Dinner", "8:00 pm", "Chicken, Fish, Egg, Vegetable, Murighanto, Dal")
-        SpecialSection("Every Friday special biryani are available")
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                //.background(Color(0xFF8FABE7)) // Background color of the entire screen
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            HeaderSection("Dining")
+            MealSection("Breakfast", "8:00 am", "Khichuri - Egg - Dal")
+            MealSection("Lunch", "12:30 pm", "Chicken, Fish, Egg, Vegetable, Murighanto, Dal")
+            MealSection("Dinner", "8:00 pm", "Chicken, Fish, Egg, Vegetable, Murighanto, Dal")
+            SpecialSection("Every Friday special biryani are available")
+        }
     }
 }
 

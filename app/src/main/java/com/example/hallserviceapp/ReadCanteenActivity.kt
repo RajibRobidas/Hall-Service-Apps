@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -68,14 +70,26 @@ class ReadCanteenActivity : ComponentActivity() {
 fun ReadCanteenScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp)
     ) {
-        HeaderSectionCanteenRe()
-        ReadCanteenSection()
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp)
+        ) {
+            HeaderSectionCanteenRe()
+            ReadCanteenSection()
+        }
     }
 }
 
@@ -101,7 +115,19 @@ fun ReadCanteenSection() {
     }
 
     if (isLoading) {
-        CircularProgressIndicator()
+        //CircularProgressIndicator()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator()
+            Text(
+                text = "Loading... Please wait",
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.Gray
+            )
+        }
     } else if (isError) {
         Text("Error loading Food information.")
     } else {
@@ -146,7 +172,8 @@ fun HeaderSectionCanteenRe() {
             color = Color.Black,
             fontSize = 20.sp,
             modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
+                .padding(start = 16.dp)
+                .background(Color.White, shape = RoundedCornerShape(10.dp))
                 .padding(10.dp)
                 .clip(RoundedCornerShape(8.dp)),
             textAlign = TextAlign.Center

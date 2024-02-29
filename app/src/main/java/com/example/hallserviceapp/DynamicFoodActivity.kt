@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,27 +54,64 @@ fun DynamicFoodScreen() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(
+
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(lightBlue)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
         ) {
-            LazyColumn {
+            // Add the background image
+            Image(
+                painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+                contentDescription = null, // Content description can be null for decorative images
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    //.background(lightBlue)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                LazyColumn {
 
-                item { HeaderSectionDynamicFood() }
-                item { Spacer(modifier = Modifier.height(30.dp)) }
-                item { ChangeOption("ADD Dining Food", R.drawable.dyningfood,"AddDiningActivity") }
-                item { Spacer(modifier = Modifier.height(30.dp)) }
-                item { ChangeOption("Delete Dining Food", R.drawable.dyningfood,"DeleteDiningActivity") }
-                item { Spacer(modifier = Modifier.height(30.dp)) }
-                item { ChangeOption("ADD Canteen Food", R.drawable.foodd,"AddCanteenActivity") }
-                item { Spacer(modifier = Modifier.height(30.dp)) }
-                item { ChangeOption("Delete Canteen Food", R.drawable.foodd,"DeleteCanteenActivity") }
-                item { Spacer(modifier = Modifier.height(30.dp)) }
+                    item { HeaderSectionDynamicFood() }
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
+                    item {
+                        ChangeOption(
+                            "ADD Dining Food",
+                            R.drawable.dyningfood,
+                            "AddDiningActivity"
+                        )
+                    }
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
+                    item {
+                        ChangeOption(
+                            "Delete Dining Food",
+                            R.drawable.dyningfood,
+                            "DeleteDiningActivity"
+                        )
+                    }
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
+                    item {
+                        ChangeOption(
+                            "ADD Canteen Food",
+                            R.drawable.foodd,
+                            "AddCanteenActivity"
+                        )
+                    }
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
+                    item {
+                        ChangeOption(
+                            "Delete Canteen Food",
+                            R.drawable.foodd,
+                            "DeleteCanteenActivity"
+                        )
+                    }
+                    item { Spacer(modifier = Modifier.height(30.dp)) }
 
+                }
             }
         }
     }

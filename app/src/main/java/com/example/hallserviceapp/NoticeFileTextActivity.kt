@@ -42,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -101,90 +102,102 @@ fun NoticeFileText(
     var isUploading by remember { mutableStateOf(false) }
     val gray = Color(0xFFE7E3E7)
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp)
     ) {
-        HeaderSectionNFT()
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Box(
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .background(Color.Gray)
-                .border(2.dp, Color.Black)
-                .clickable(onClick = onSelectPdf)
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Select File",
-                tint = Color.White,
+            HeaderSectionNFT()
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Box(
                 modifier = Modifier
-                    .size(48.dp)
-                    .align(Alignment.Center)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        Text(
-            text = "Select PDF File",
-            color = Color.Black,
-            fontSize = 25.sp,
-            modifier = Modifier
-                .background(gray, shape = RoundedCornerShape(18.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        TextField(
-            value = titleState,
-            onValueChange = { titleState = it },
-            label = { Text("Enter Title") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                if (titleState.text.isNotBlank() && pdfUri != null) {
-                    isUploading = true
-                    uploadPdfFile(context, titleState.text, pdfUri!!) { success ->
-                        if (success) {
-                            titleState = TextFieldValue("")
-                            onPdfUriChange(null) // Reset pdfUri after upload
-                        }
-                        isUploading = false
-                    }
-                } else {
-                    Toast.makeText(context, "Please fill all fields", Toast.LENGTH_LONG).show()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Submit Notice")
-        }
-
-        if (isUploading) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(Color.Gray)
+                    .border(2.dp, Color.Black)
+                    .clickable(onClick = onSelectPdf)
             ) {
-                CircularProgressIndicator()
-                Text(
-                    text = "Uploading... Please wait",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = Color.Gray
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Select File",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .align(Alignment.Center)
                 )
+            }
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Text(
+                text = "Select PDF File",
+                color = Color.Black,
+                fontSize = 25.sp,
+                modifier = Modifier
+                    .background(gray, shape = RoundedCornerShape(18.dp))
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            TextField(
+                value = titleState,
+                onValueChange = { titleState = it },
+                label = { Text("Enter Title") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+                    if (titleState.text.isNotBlank() && pdfUri != null) {
+                        isUploading = true
+                        uploadPdfFile(context, titleState.text, pdfUri!!) { success ->
+                            if (success) {
+                                titleState = TextFieldValue("")
+                                onPdfUriChange(null) // Reset pdfUri after upload
+                            }
+                            isUploading = false
+                        }
+                    } else {
+                        Toast.makeText(context, "Please fill all fields", Toast.LENGTH_LONG).show()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Submit Notice")
+            }
+
+            if (isUploading) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator()
+                    Text(
+                        text = "Uploading... Please wait",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Color.Gray
+                    )
+                }
             }
         }
     }

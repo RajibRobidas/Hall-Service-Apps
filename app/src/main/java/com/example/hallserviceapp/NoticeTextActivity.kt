@@ -10,6 +10,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -75,68 +77,81 @@ fun NoticeTextScreen() {
     var isUploading by remember { mutableStateOf(false) }
     val lightBlue = Color(0xFF8FABE7) // Light blue color
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp)
     ) {
-
-        HeaderSectionNT()
-        Spacer(modifier = Modifier.height(20.dp))
-
-        InputTitleNT(titleState, "Enter complaint title") { titleState = it }
-        Spacer(modifier = Modifier.height(15.dp))
-        InputFieldNT(textState, "Write your complaint here") { textState = it }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp)
         ) {
 
-            Button(onClick = {
-                textState = TextFieldValue("")
-                titleState = TextFieldValue("")
-            }) {
-                Text("Clear")
-            }
+            HeaderSectionNT()
+            Spacer(modifier = Modifier.height(20.dp))
 
-            Button(
-                onClick = {
-                    if (titleState.text.isNotBlank() && textState.text.isNotBlank()) {
-                        isUploading = true
-                        submitNotice(context, titleState.text, textState.text) { success ->
-                            if (success) {
-                                titleState = TextFieldValue("")
-                                textState = TextFieldValue("")
+            InputTitleNT(titleState, "Enter complaint title") { titleState = it }
+            Spacer(modifier = Modifier.height(15.dp))
+            InputFieldNT(textState, "Write your complaint here") { textState = it }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Button(onClick = {
+                    textState = TextFieldValue("")
+                    titleState = TextFieldValue("")
+                }) {
+                    Text("Clear")
+                }
+
+                Button(
+                    onClick = {
+                        if (titleState.text.isNotBlank() && textState.text.isNotBlank()) {
+                            isUploading = true
+                            submitNotice(context, titleState.text, textState.text) { success ->
+                                if (success) {
+                                    titleState = TextFieldValue("")
+                                    textState = TextFieldValue("")
+                                }
+                                isUploading = false
                             }
-                            isUploading = false
+                        } else {
+                            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_LONG)
+                                .show()
                         }
-                    } else {
-                        Toast.makeText(context, "Please fill all fields", Toast.LENGTH_LONG).show()
-                    }
-                },
-                //modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Submit Notice")
+                    },
+                    //modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Submit Notice")
+                }
             }
-        }
 
-        if (isUploading) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator()
-                Text(
-                    text = "Uploading... Please wait",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = Color.Gray
-                )
+            if (isUploading) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator()
+                    Text(
+                        text = "Uploading... Please wait",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Color.Gray
+                    )
+                }
             }
         }
     }

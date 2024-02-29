@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -59,48 +60,62 @@ fun ContactsScreen() {
     val yellow = Color(0xFFC5B685)
 
     val context = LocalContext.current
-    Column(
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue, shape = RoundedCornerShape(10.dp))
-            .padding(10.dp),
-        verticalArrangement = Arrangement.Top,
     ) {
-        HeaderSectionNotice()
-
-        Box(
-            //contentAlignment = Alignment.TopCenter,
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        ) {
-            Text(
-                text = "List:",
-                fontSize = 30.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .background(gray, shape = RoundedCornerShape(10.dp))
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
-        // Available Item List Label
-        val contactItems = listOf(
-            ContactItem("Varsity Ambulance Service", "01764-64646"),
-            ContactItem("Varsity Emergency Helpline", "01739-36852"),
-            // ... add more items here
-            ContactItem("Ambulance Helpline, Sylhet", "01789-782332"),
-            ContactItem("Fire Service Station, Sylhet", "01730-336644"),
-
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
         )
-        LazyColumn(
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(lightBlue)
-
+                //.background(lightBlue, shape = RoundedCornerShape(10.dp))
+                .padding(10.dp),
+            verticalArrangement = Arrangement.Top,
         ) {
-            items(contactItems) { contactItem ->
-                ContactItemView(contactItem)
+            HeaderSectionNotice()
+
+            Box(
+                //contentAlignment = Alignment.TopCenter,
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 1.dp)
+            ) {
+                Text(
+                    text = "List:",
+                    fontSize = 30.sp,
+                    color = Color.White,
+                    modifier = Modifier
+                        //.background(lightBlue, shape = RoundedCornerShape(10.dp))
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    textAlign = TextAlign.Center
+                )
+            }
+            // Available Item List Label
+            val contactItems = listOf(
+                ContactItem("Varsity Ambulance Service", "01764-64646"),
+                ContactItem("Varsity Emergency Helpline", "01739-36852"),
+                // ... add more items here
+                ContactItem("Ambulance Helpline, Sylhet", "01789-782332"),
+                ContactItem("Fire Service Station, Sylhet", "01730-336644"),
+
+                )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    //.background(lightBlue)
+
+            ) {
+                items(contactItems) { contactItem ->
+                    ContactItemView(contactItem)
+                }
             }
         }
     }
@@ -125,7 +140,7 @@ fun HeaderSectionNotice() {
                     context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
                 }
                 .size(58.dp)
-                .padding(end = 25.dp)
+                .padding(start = 10.dp, end = 8.dp)
         )
 
         Spacer(modifier = Modifier.width(55.dp)) // For spacing
@@ -149,9 +164,9 @@ fun ContactItemView(contactItem: ContactItem) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(vertical = 16.dp, horizontal = 8.dp)
             .background(Color.White, shape = RoundedCornerShape(10.dp))
-            .padding(8.dp),
+            .padding(12.dp),
     horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(

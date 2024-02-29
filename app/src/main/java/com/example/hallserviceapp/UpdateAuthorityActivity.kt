@@ -42,8 +42,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -88,136 +90,162 @@ fun UpdateAuthorityScreen() {
     var showDialog by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }  // Loading state
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        HeaderSectionAuthority()
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            HeaderSectionAuthority()
 
-        Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(16.dp))
 
-        LazyColumn {
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    LoadImage { uri ->
-                        imageUri = uri
-                    }
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    ShowImage(imageUri)
-
-                }
-
-                // Show selected image
-
-                OutlinedTextField(
-                    value = authorityName,
-                    onValueChange = { authorityName = it },
-                    label = { Text("Name") },
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-                )
-                OutlinedTextField(
-                    value = designation,
-                    onValueChange = { designation = it },
-                    label = { Text("Designation") },
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-                )
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-                )
-                OutlinedTextField(
-                    value = phoneNumber,
-                    onValueChange = { phoneNumber = it },
-                    label = { Text("Phone Number") },
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-                )
-                // Similar OutlinedTextField for other authority fields
-
-                Spacer(modifier = Modifier.size(16.dp))
-
-                if (isLoading) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxSize()
+            LazyColumn {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        CircularProgressIndicator()
-                        Text(
-                            text = "Uploading... Please wait",
-                            style = MaterialTheme.typography.titleSmall,
-                            color = Color.Gray
+                        LoadImage { uri ->
+                            imageUri = uri
+                        }
+                        Spacer(modifier = Modifier.width(15.dp))
+
+                        ShowImage(imageUri)
+
+                    }
+
+                    // Show selected image
+
+                    OutlinedTextField(
+                        value = authorityName,
+                        onValueChange = { authorityName = it },
+                        label = { Text("Name",
+                            color = Color.White // Set label text color to white
+                        ) },
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                        textStyle = TextStyle(color = Color.White) // Set text color to white
+                    )
+                    OutlinedTextField(
+                        value = designation,
+                        onValueChange = { designation = it },
+                        label = { Text("Designation",
+                            color = Color.White // Set label text color to white
+                        ) },
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                        textStyle = TextStyle(color = Color.White) // Set text color to white
+                    )
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Email",
+                            color = Color.White // Set label text color to white
+                        ) },
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                        textStyle = TextStyle(color = Color.White) // Set text color to white
+                    )
+                    OutlinedTextField(
+                        value = phoneNumber,
+                        onValueChange = { phoneNumber = it },
+                        label = { Text("Phone Number",
+                            color = Color.White // Set label text color to white
+                        ) },
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                        textStyle = TextStyle(color = Color.White) // Set text color to white
+                    )
+                    // Similar OutlinedTextField for other authority fields
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
+                    if (isLoading) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            CircularProgressIndicator()
+                            Text(
+                                text = "Uploading... Please wait",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = Color.Gray
+                            )
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            // Validate authority information
+                            if (authorityName.isNotEmpty() && designation.isNotEmpty() &&
+                                phoneNumber.isNotEmpty() && email.isNotEmpty() && imageUri != null
+                            ) {
+                                showDialog = true
+                                isLoading = true
+                                uploadAuthorityToFirebase(
+                                    context,
+                                    imageUri,
+                                    authorityName,
+                                    designation,
+                                    phoneNumber,
+                                    email,
+                                    storageReference,
+                                    databaseReference
+                                )
+                                //showDialog = false
+
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Please fill all fields and select an image",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                        modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth()
+                    ) {
+                        Text("Upload Authority Information")
+                    }
+                    if (showDialog) {
+                        AlertDialog(
+                            onDismissRequest = {
+                                showDialog = false
+                                isLoading = false
+
+                            },
+                            title = {
+                                Text("Uploading")
+                            },
+                            text = {
+                                Text("Uploading... Please wait")
+                            },
+                            confirmButton = {
+                                TextButton(
+                                    onClick = {
+                                        showDialog = false
+                                        isLoading = false
+                                    }
+                                ) {
+                                    Text("Dismiss")
+                                }
+                            }
                         )
                     }
+
                 }
-
-                Button(
-                    onClick = {
-                        // Validate authority information
-                        if (authorityName.isNotEmpty() && designation.isNotEmpty() &&
-                            phoneNumber.isNotEmpty() && email.isNotEmpty() && imageUri != null) {
-                            showDialog = true
-                            isLoading= true
-                            uploadAuthorityToFirebase(
-                                context,
-                                imageUri,
-                                authorityName,
-                                designation,
-                                phoneNumber,
-                                email,
-                                storageReference,
-                                databaseReference
-                            )
-                            //showDialog = false
-
-                        } else {
-                            Toast.makeText(
-                                context,
-                                "Please fill all fields and select an image",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    },
-                    modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth()
-                ) {
-                    Text("Upload Authority Information")
-                }
-                if (showDialog) {
-                    AlertDialog(
-                        onDismissRequest = {
-                            showDialog = false
-                            isLoading= false
-
-                        },
-                        title = {
-                            Text("Uploading")
-                        },
-                        text = {
-                            Text("Uploading... Please wait")
-                        },
-                        confirmButton = {
-                            TextButton(
-                                onClick = {
-                                    showDialog = false
-                                    isLoading= false                                }
-                            ) {
-                                Text("Dismiss")
-                            }
-                        }
-                    )
-                }
-
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -68,40 +70,52 @@ fun DeleteUserContent() { // Receive context as a parameter
     var showingProgressDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        HeaderSectionRemoveUser()
-
-        Spacer(modifier = Modifier.height(170.dp))
-
-        // Input field to enter user's email
-        TextField(
-            value = emailState.value,
-            onValueChange = { emailState.value = it },
-            label = { Text("Enter user's email") },
-            modifier = Modifier.fillMaxWidth().padding(8.dp)
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-        val context = LocalContext.current
-
-        // Button to remove user
-        Button(
-            onClick = {
-                val email = emailState.value.text
-                showingProgressDialog = false
-                removeUserByEmail(context, email) { // Pass context to removeUserByEmail
-                    showingProgressDialog = false
-                }
-            },
-            modifier = Modifier.fillMaxWidth().padding(8.dp)
+        Column(
+            modifier = Modifier.fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Remove User")
+            HeaderSectionRemoveUser()
+
+            Spacer(modifier = Modifier.height(170.dp))
+
+            // Input field to enter user's email
+            TextField(
+                value = emailState.value,
+                onValueChange = { emailState.value = it },
+                label = { Text("Enter user's email") },
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            val context = LocalContext.current
+
+            // Button to remove user
+            Button(
+                onClick = {
+                    val email = emailState.value.text
+                    showingProgressDialog = false
+                    removeUserByEmail(context, email) { // Pass context to removeUserByEmail
+                        showingProgressDialog = false
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
+            ) {
+                Text("Remove User")
+            }
         }
     }
 
@@ -116,6 +130,8 @@ fun DeleteUserContent() { // Receive context as a parameter
 fun HeaderSectionRemoveUser() {
     val yellow = Color(0xFF40E48A)
     val context = LocalContext.current
+
+    Spacer(modifier = Modifier.height(20.dp)) // Reduce the width of the Spacer
 
     Row(
         modifier = Modifier
@@ -144,7 +160,7 @@ fun HeaderSectionRemoveUser() {
             color = Color.Black,
             fontSize = 20.sp,
             modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
+                .background(Color.White, shape = RoundedCornerShape(10.dp))
                 .padding(10.dp)
                 .clip(RoundedCornerShape(8.dp))
         )

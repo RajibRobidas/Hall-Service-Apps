@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -56,30 +58,42 @@ fun UploadNoticeScreen() {
     val gray = Color(0xFFE7E3E7)
     val context = LocalContext.current
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        HeaderSectionAddNotice()
+            HeaderSectionAddNotice()
 
-        Spacer(modifier = Modifier.height(160.dp))
+            Spacer(modifier = Modifier.height(160.dp))
 
-        OptionText("Upload Text File", Color.LightGray) {
-            context.startActivity(Intent(context, NoticeTextActivity::class.java))
-        }
+            OptionText("Upload Text File", Color.LightGray) {
+                context.startActivity(Intent(context, NoticeTextActivity::class.java))
+            }
 
-        Spacer(modifier = Modifier.height(20.dp))
-/*
+            Spacer(modifier = Modifier.height(20.dp))
+            /*
         OptionText("Upload Notice File", gray) {
             context.startActivity(Intent(context, NoticeFileTextActivity::class.java))
         }
 */
 
+        }
     }
 }
 

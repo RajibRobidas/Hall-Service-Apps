@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -53,72 +54,87 @@ class SportsActivity : ComponentActivity() {
 @Composable
 fun SportsScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
-    val gray = Color(0xFFBA6FBD)
+    val gray = Color(0xFFFFFFFF)
     val green = Color(0xFF43B83A)
-    val yellow = Color(0xFFC5B685)
+    val yellow = Color(0xFFF1EFE9)
 
     val context = LocalContext.current
-    Column(
+
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
     ) {
-        HeaderSectionSports()
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Box(
-            contentAlignment = Alignment.TopCenter,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "Available item list:",
-                fontSize = 30.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .background(gray, shape = RoundedCornerShape(10.dp))
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                textAlign = TextAlign.Center
-            )
-        }
-        // Available Item List Label
-
-        Spacer(modifier = Modifier.height(30.dp))
-
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(18.dp)
-                .background(Color.White, shape = RoundedCornerShape(10.dp))
-                .padding(16.dp)
+                .fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
         ) {
-            Text(
-                text = "Room no : 101",
-                fontSize = 25.sp,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .background(yellow)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
+            HeaderSectionSports()
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            Box(
+                contentAlignment = Alignment.TopCenter,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Available item list:",
+                    fontSize = 30.sp,
+                    color = Color.White,
+                    modifier = Modifier
+                        //.background(lightBlue, shape = RoundedCornerShape(10.dp))
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    textAlign = TextAlign.Center
+                )
+            }
+            // Available Item List Label
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             Column(
                 modifier = Modifier
-                    .background(Color.White, shape = RoundedCornerShape(10.dp))
-                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .background(gray, shape = RoundedCornerShape(10.dp))
+                //.padding(16.dp)
             ) {
-                Text(text = "1. Football", fontSize = 24.sp)
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "2. Cricket ball and stamp", fontSize = 24.sp)
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "3. Dart", fontSize = 24.sp)
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "4. Handball", fontSize = 24.sp)
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "5. Racquetbal", fontSize = 24.sp)
-                // Add more items as needed
+                Text(
+                    text = "Room no : 101",
+                    color = Color.Blue,
+                    fontSize = 25.sp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .background(gray)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Column(
+                    modifier = Modifier
+                        .background(gray, shape = RoundedCornerShape(10.dp))
+                        .padding(16.dp)
+                ) {
+                    Text(text = "1. Football", fontSize = 24.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "2. Cricket ball and stamp", fontSize = 24.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "3. Dart", fontSize = 24.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "4. Handball", fontSize = 24.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "5. Racquetbal", fontSize = 24.sp)
+                    // Add more items as needed
+                }
             }
         }
     }
@@ -142,7 +158,7 @@ fun HeaderSectionSports() {
                     context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
                 }
                 .size(58.dp)
-                .padding(end = 25.dp)
+                .padding(start = 20.dp,end = 1.dp)
         )
 
         Spacer(modifier = Modifier.width(60.dp)) // For spacing

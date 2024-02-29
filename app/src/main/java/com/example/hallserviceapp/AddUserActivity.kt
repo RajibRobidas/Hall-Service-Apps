@@ -9,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,72 +65,90 @@ fun AddUserContent() {
     var createUserState by remember { mutableStateOf<UserState?>(null) }
     val lightBlue = Color(0xFF8FABE7) // Light blue color
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-        .background(lightBlue)
-        .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        val context = LocalContext.current
-        HeaderSectionAddUser()
-
-        Spacer(modifier = Modifier.height(150.dp))
-
-       // Text(
-        //    text = "Add User",
-        //    style = MaterialTheme.typography.headlineSmall
-       // )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // TextFields for email and password input
-        TextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Button to add user
-// Inside AddUserContent composable
-        Button(
-            onClick = {
-                // Call function to add user using Firebase Authentication
-                createUserWithEmailAndPassword(email, password) { isSuccess, errorMessage ->
-                    if (isSuccess) {
-                        Toast.makeText(context, "User added successfully!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "Failed to add user: $errorMessage", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            },
-            modifier = Modifier.padding(horizontal = 16.dp)
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier.fillMaxSize()
+                //.background(lightBlue)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Add User")
-        }
+            val context = LocalContext.current
+            HeaderSectionAddUser()
 
-        // Display user creation state
-        createUserState?.let { userState ->
-            when (userState) {
-                is UserState.Success -> {
-                    Text("User added successfully!")
-                }
-                is UserState.Error -> {
-                    Text("Failed to add user: ${userState.errorMessage}")
+            Spacer(modifier = Modifier.height(150.dp))
+
+            // Text(
+            //    text = "Add User",
+            //    style = MaterialTheme.typography.headlineSmall
+            // )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // TextFields for email and password input
+            TextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Button to add user
+// Inside AddUserContent composable
+            Button(
+                onClick = {
+                    // Call function to add user using Firebase Authentication
+                    createUserWithEmailAndPassword(email, password) { isSuccess, errorMessage ->
+                        if (isSuccess) {
+                            Toast.makeText(context, "User added successfully!", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Failed to add user: $errorMessage",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                Text("Add User")
+            }
+
+            // Display user creation state
+            createUserState?.let { userState ->
+                when (userState) {
+                    is UserState.Success -> {
+                        Text("User added successfully!")
+                    }
+
+                    is UserState.Error -> {
+                        Text("Failed to add user: ${userState.errorMessage}")
+                    }
                 }
             }
         }

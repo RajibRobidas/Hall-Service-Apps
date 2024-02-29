@@ -6,9 +6,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +28,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,79 +62,104 @@ fun SignUpScreen() {
     ) {
         val lightBlue = Color(0xFF8FABE7) // Light blue color
 
-        Column(
-            verticalArrangement = Arrangement.Top,
+        Box(
             modifier = Modifier
-                .background(lightBlue)
                 .fillMaxSize()
-                .padding(16.dp)
         ) {
-            val context = LocalContext.current
+            // Add the background image
             Image(
-                painter = painterResource(id = R.drawable.arrow_back),
-                contentDescription = "headline",
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(
-                            Intent(
-                                context,
-                                AdminActivity::class.java
-                            )
-                        )
-                    }
-                    .padding(end = 10.dp)
-                    .size(width = 40.dp, height = 40.dp)
+                painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+                contentDescription = null, // Content description can be null for decorative images
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
             )
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    //.background(lightBlue)
+                    .fillMaxSize()
+                    .padding(16.dp)
             ) {
+                val context = LocalContext.current
                 Image(
-                    painter = painterResource(id = imageResource),
-                    contentDescription = "User Icon",
-                    modifier = Modifier.size(150.dp)
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Want to reset Password?",
-                    color = Color.White,
-                    fontSize = 25.sp,
+                    painter = painterResource(id = R.drawable.arrow_back),
+                    contentDescription = "headline",
                     modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .background(color = Color(138, 103, 168, 255)),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Enter your email") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        if (email == ""){
-                            Toast.makeText(context, "Please Enter Email", Toast.LENGTH_SHORT).show()
-                        }else {
-                            val auth = FirebaseAuth.getInstance()
-                            auth.sendPasswordResetEmail(email)
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        Toast.makeText(context, "Password reset email sent", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        Toast.makeText(context, "Failed to send reset email", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    AdminActivity::class.java
+                                )
+                            )
                         }
-                        // Handle password reset
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                        .padding(end = 10.dp)
+                        .size(width = 40.dp, height = 40.dp)
+                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Text("Reset Password")
+                    Image(
+                        painter = painterResource(id = imageResource),
+                        contentDescription = "User Icon",
+                        modifier = Modifier.size(150.dp)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Want to reset Password?",
+                        color = Color.White,
+                        fontSize = 25.sp,
+                        modifier = Modifier
+                            .padding(vertical = 16.dp)
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        //.background(color = Color(138, 103, 168, 255)),
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Enter your email",
+                            color = Color.White // Set label text color to white
+                        ) },
+                        modifier = Modifier.fillMaxWidth(),
+                        textStyle = TextStyle(color = Color.White) // Set text color to white
+
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = {
+                            if (email == "") {
+                                Toast.makeText(context, "Please Enter Email", Toast.LENGTH_SHORT)
+                                    .show()
+                            } else {
+                                val auth = FirebaseAuth.getInstance()
+                                auth.sendPasswordResetEmail(email)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            Toast.makeText(
+                                                context,
+                                                "Password reset email sent",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            Toast.makeText(
+                                                context,
+                                                "Failed to send reset email",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                            }
+                            // Handle password reset
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Reset Password")
+                    }
                 }
             }
         }

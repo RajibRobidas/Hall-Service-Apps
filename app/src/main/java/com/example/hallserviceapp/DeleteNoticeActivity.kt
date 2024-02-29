@@ -10,6 +10,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,31 +83,44 @@ fun DeleteNoticeContent() {
         })
     }
     val notices = noticeList
-    Column(
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(lightBlue, shape = RoundedCornerShape(10.dp))
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
     ) {
-        HeaderSectionDeleteNotice()
-        Spacer(modifier = Modifier.height(16.dp))
-        if (isLoading) {
-            CircularProgressIndicator()
-        } else if (isError) {
-            Text("Error loading complaints.")
-        } else {
-            if (notices.isNotEmpty()) {
-                LazyColumn {
-                    items(notices) { notice ->
-                        DeleteNoticeItem(notice){ noticestId ->
-                            database.child(noticestId).removeValue()
+        // Add the background image
+        Image(
+            painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+            contentDescription = null, // Content description can be null for decorative images
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                //.background(lightBlue, shape = RoundedCornerShape(10.dp))
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            HeaderSectionDeleteNotice()
+            Spacer(modifier = Modifier.height(16.dp))
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else if (isError) {
+                Text("Error loading complaints.")
+            } else {
+                if (notices.isNotEmpty()) {
+                    LazyColumn {
+                        items(notices) { notice ->
+                            DeleteNoticeItem(notice) { noticestId ->
+                                database.child(noticestId).removeValue()
+                            }
                         }
                     }
+                } else {
+                    Text(text = "No notices found", style = MaterialTheme.typography.titleMedium)
                 }
-            } else {
-                Text(text = "No notices found", style = MaterialTheme.typography.titleMedium)
             }
         }
     }
