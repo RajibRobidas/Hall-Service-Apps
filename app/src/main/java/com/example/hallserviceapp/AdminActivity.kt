@@ -263,10 +263,38 @@ fun HeaderSectionAd() {
         ) {
             //Spacer(modifier = Modifier.width(35.dp)) // For spacing
             Text(
-                text = "View as User",
+                text = "Admin Section",
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .background(Color.White, shape = MaterialTheme.shapes.medium)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+        Image(
+            painter = painterResource(id = R.drawable.arrow_back),
+            contentDescription = "Headline",
+            modifier = Modifier
+                .clickable {context.startActivity(Intent(context,FrontAdminActivity::class.java))  // Change to the desired activity
+                }
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Absolute.Right
+        ) {
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = "User",
+                style = MaterialTheme.typography.headlineSmall,
+                color = Color.White,
+                fontSize = 18.sp,
+                modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .clickable {
                         context.startActivity(
@@ -278,23 +306,6 @@ fun HeaderSectionAd() {
                     }
             )
         }
-        Image(
-            painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "Headline",
-            modifier = Modifier
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            FrontAdminActivity::class.java
-                        )
-                    )  // Change to the desired activity
-                }
-                .padding(vertical = 10.dp)
-                //.padding(top = 4.dp)
-                .size(50.dp)
-                .padding(9.dp)
-        )
     }
 }
 @Composable
