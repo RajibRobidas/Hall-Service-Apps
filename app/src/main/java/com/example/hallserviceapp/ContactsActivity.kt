@@ -83,7 +83,8 @@ fun ContactsScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                HeaderSectionAd()
+                Headlineee("Contacts")
+
                 Spacer(modifier = Modifier.height(30.dp))
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),

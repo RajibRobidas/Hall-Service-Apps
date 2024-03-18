@@ -63,7 +63,7 @@ fun AdminScreen() {
         ) {
             // Add the background image
             Image(
-                painter = painterResource(id = R.drawable.bgpic4), // Replace with your image resource
+                painter = painterResource(id = R.drawable.body3), // Replace with your image resource
                 contentDescription = null, // Content description can be null for decorative images
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.FillBounds // Scale the image to fill the bounds
