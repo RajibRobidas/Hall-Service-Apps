@@ -77,37 +77,6 @@ fun ResetPasswordScreen() {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                /*
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-
-                ) {
-                    Text(
-                        text = "Admin",
-                        color = Color(0xFF99B1E6),
-                        fontSize = 16.sp,
-                        modifier = Modifier
-                            .clickable {
-                                //context.startActivity(Intent(context, FrontAdminActivity::class.java))
-                            }
-                            .padding(vertical = 16.dp)
-                    )
-                    Text(
-                        text = "Food",
-                        color = Color(0xFF99B1E6),
-                        fontSize = 16.sp,
-                        modifier = Modifier
-                            .clickable {
-                                //context.startActivity(Intent(context, FrontAdminActivity::class.java))
-                            }
-                            .padding(vertical = 16.dp)
-                    )
-                }
-
-                 */
 
                 Spacer(modifier = Modifier.height(40.dp))
 

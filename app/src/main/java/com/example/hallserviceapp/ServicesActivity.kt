@@ -1,12 +1,10 @@
 package com.example.hallserviceapp
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Construction
@@ -80,8 +77,7 @@ fun ServicesScreen() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.Top,
         ) {
-
-            HeaderSectionService()
+            Headlineee("Services")
             ServicesList()
         }
     }
@@ -121,39 +117,7 @@ fun ServicesList() {
         )
     }
 }
-@Composable
-fun HeaderSectionService() {
 
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.headline),
-            contentDescription = "Headline",
-            modifier = Modifier
-                .clickable{
-                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
-                }
-                .size(58.dp)
-                .padding(start = 20.dp)
-        )
-
-        Spacer(modifier = Modifier.width(60.dp)) // For spacing
-
-        Text(
-            text = "Services",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .background(Color.White, shape = MaterialTheme.shapes.medium)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-    }
-}
 @Composable
 fun ServiceItem(icon: ImageVector, serviceName: String, roomNumber: String) {
     Row(
@@ -174,7 +138,7 @@ fun ServiceItem(icon: ImageVector, serviceName: String, roomNumber: String) {
 
         Column {
             Text(text = serviceName, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            Text(text = roomNumber, fontSize = 16.sp)
+            //Text(text = roomNumber, fontSize = 16.sp)
         }
     }
     Spacer(modifier = Modifier.height(20.dp)) // For spacing

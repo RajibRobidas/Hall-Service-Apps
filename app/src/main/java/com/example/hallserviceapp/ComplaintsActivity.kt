@@ -1,14 +1,12 @@
 package com.example.hallserviceapp
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,8 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -93,46 +89,11 @@ fun ComplaintsScreen() {
                 .padding(16.dp)
 
         ) {
-            HeaderSectionComplaints()
+            Headlineee("Complaints")
             WriteSection()
         }
     }
 }
-
-@Composable
-fun HeaderSectionComplaints() {
-
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.headline),
-            contentDescription = "Headline",
-            modifier = Modifier
-                .clickable{
-                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
-                }
-                .size(58.dp)
-                .padding(start = 20.dp)
-        )
-
-        Spacer(modifier = Modifier.width(45.dp)) // For spacing
-
-        Text(
-            text = "Complaints",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .background(Color.White, shape = MaterialTheme.shapes.medium)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-    }
-}
-
 @Composable
 fun WriteSection() {
     val yellow = Color(0xFFC5B685)

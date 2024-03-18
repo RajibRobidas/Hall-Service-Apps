@@ -6,19 +6,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -93,46 +88,12 @@ fun NoticeScreen() {
                 //.background(lightBlue)
                 .padding(16.dp)
         ) {
-            HeaderSectionN()
+            Headlineee("Notice")
             //SearchSection()
             NoticeSection()
         }
     }
 
-}
-
-@Composable
-fun HeaderSectionN() {
-
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.headline),
-            contentDescription = "Headline",
-            modifier = Modifier
-                .clickable{
-                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
-                }
-                .size(58.dp)
-                .padding(start = 25.dp)
-        )
-
-        Spacer(modifier = Modifier.width(60.dp)) // For spacing
-
-        Text(
-            text = "Notice",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .background(Color.White, shape = MaterialTheme.shapes.medium)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        )
-    }
 }
 
 data class NoticeNN(

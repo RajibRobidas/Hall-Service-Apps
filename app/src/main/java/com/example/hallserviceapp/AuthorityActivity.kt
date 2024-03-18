@@ -91,7 +91,7 @@ fun AuthorityScreen() {
                 //.background(lightBlue)
                 .padding(16.dp)
         ) {
-            HeaderSectionAuthoritys()
+            Headlineee("Authority Information")
             // SearchSection()
             AuthorityInformationSection()
         }
@@ -100,21 +100,34 @@ fun AuthorityScreen() {
 }
 
 @Composable
-fun HeaderSectionAuthoritys() {
-    val yellow = Color(0xFF40E48A)
+fun Headlineee(headlinee : String) {
     val context = LocalContext.current
-
-    Spacer(modifier = Modifier.height(15.dp))
-
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = headlinee,
+                color = Color.Black,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .background(Color.White, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                textAlign = TextAlign.Center
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.headline),
-            contentDescription = "arrow",
+            contentDescription = "Headline",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
@@ -122,21 +135,12 @@ fun HeaderSectionAuthoritys() {
                             context,
                             UserActivity::class.java
                         )
-                    )
+                    )  // Change to the desired activity
                 }
-                .padding(10.dp)
-                .size(width = 50.dp, height = 25.dp)
-        )
-
-        Text(
-            text = "Authority Information",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .background(Color.White, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
         )
     }
 }

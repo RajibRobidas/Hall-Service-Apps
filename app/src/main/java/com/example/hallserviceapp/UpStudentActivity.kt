@@ -1,28 +1,22 @@
 package com.example.hallserviceapp
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -46,7 +39,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.hallserviceapp.ui.theme.HallServiceAppTheme
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -86,7 +78,7 @@ fun StudentsScreen() {
     var showDialog by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }  // Loading state
 
-    Box(
+    Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -103,9 +95,9 @@ fun StudentsScreen() {
                 //.background(lightBlue)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
-            HeaderSectionStudents()
+            HeaderSectionAll("Add Student")
 
             Spacer(modifier = Modifier.size(16.dp))
 
@@ -120,7 +112,7 @@ fun StudentsScreen() {
                         LoadImage { uri ->
                             imageUri = uri
                         }
-                        Spacer(modifier = Modifier.width(15.dp))
+                        Spacer(modifier = Modifier.width(40.dp))
                         ShowImage(imageUri)
                     }
 
@@ -248,45 +240,6 @@ fun StudentsScreen() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun HeaderSectionStudents() {
-    val yellow = Color(0xFF40E48A)
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "arrow",
-            modifier = Modifier
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            AdminActivity::class.java
-                        )
-                    )
-                }
-                .padding(end = 10.dp)
-                .size(width = 90.dp, height = 30.dp)
-        )
-
-        Text(
-            text = "Add Student",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp))
-        )
     }
 }
 

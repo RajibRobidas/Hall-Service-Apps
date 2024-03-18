@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -77,7 +78,7 @@ fun UserScreen() {
                     .padding(30.dp)
 
             ) {
-                Head()
+                Head("Mujtaba Ali Hall")
                 Spacer(modifier = Modifier.height(20.dp))
                 Row1()
                 //Spacer(modifier = Modifier.height(16.dp))
@@ -95,14 +96,31 @@ fun UserScreen() {
 }
 
 @Composable
-fun Head() {
+fun Head(headlinee : String) {
     val context = LocalContext.current
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        //horizontalArrangement = Arrangement.Center // Center the items
-        horizontalArrangement = Arrangement.SpaceBetween
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+
+            //Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = headlinee,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(8.dp)
+                    .fillMaxWidth(),
+                //.width(200.dp),
+                textAlign = TextAlign.Center,
+                color = Color.White
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.arrow_back),
             contentDescription = "arrow",
@@ -110,18 +128,9 @@ fun Head() {
                 .clickable {
                     context.startActivity(Intent(context, LoginActivity::class.java))  // Change to the desired activity
                 }
-                .width(40.dp)
-                .height(40.dp)
-        )
-        //Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = "Mujtaba Ali Hall",
-            fontSize = 24.sp,
-            modifier = Modifier.padding(8.dp)
-                .fillMaxWidth(),
-            //.width(200.dp),
-            textAlign = TextAlign.Center,
-            color = Color.White
+                .padding(vertical = 10.dp)
+                .size(50.dp)
+                .padding(9.dp)
         )
     }
 }
@@ -221,6 +230,41 @@ fun Row2() {
         }
         Spacer(modifier = Modifier.width(16.dp))
 
+        // Complaints Column
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .width(130.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.complaintss),
+                contentDescription = "Complaints",
+                modifier = Modifier
+                    .clickable {
+                        context.startActivity(Intent(context, ComplaintsActivity::class.java))  // Change to the desired activity
+                    }
+                    .width(80.dp)
+                    .height(70.dp)
+            )
+            Text(
+                text = "Complaints",
+                fontSize = 18.sp,
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
+            )
+        }
+    }
+}
+
+@Composable
+fun Row3() {
+    val context = LocalContext.current
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center // Center the items
+    ) {
         // Students Column
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -245,11 +289,38 @@ fun Row2() {
                 color = Color.White
             )
         }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        // Contacts Column
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .width(130.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.contactss),
+                contentDescription = "Contacts",
+                modifier = Modifier
+                    .clickable {
+                        context.startActivity(Intent(context, ContactsActivity::class.java))  // Change to the desired activity
+                    }
+                    .width(80.dp)
+                    .height(70.dp)
+            )
+            Text(
+                text = "Contacts",
+                fontSize = 18.sp,
+                modifier = Modifier.padding(8.dp),
+                color = Color.White
+            )
+        }
     }
 }
 
 @Composable
-fun Row3() {
+fun Row4() {
     val context = LocalContext.current
 
     Row(
@@ -280,43 +351,9 @@ fun Row3() {
                 color = Color.White
             )
         }
+
         Spacer(modifier = Modifier.width(16.dp))
 
-        // Medicine Column
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .width(130.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.medicinss),
-                contentDescription = "Medicine",
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(Intent(context, MedicineActivity::class.java))  // Change to the desired activity
-                    }
-                    .width(80.dp)
-                    .height(70.dp)
-            )
-            Text(
-                text = "Medicine",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp),
-                color = Color.White
-            )
-        }
-    }
-}
-
-@Composable
-fun Row4() {
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center // Center the items
-    ) {
         // Services Column
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -341,32 +378,7 @@ fun Row4() {
                 color = Color.White
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
 
-        // Complaints Column
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .width(130.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.complaintss),
-                contentDescription = "Complaints",
-                modifier = Modifier
-                    .clickable {
-                        context.startActivity(Intent(context, ComplaintsActivity::class.java))  // Change to the desired activity
-                    }
-                    .width(80.dp)
-                    .height(70.dp)
-            )
-            Text(
-                text = "Complaints",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp),
-                color = Color.White
-            )
-        }
     }
 }
 
@@ -405,7 +417,7 @@ fun Row5() {
         }
         Spacer(modifier = Modifier.width(16.dp))
 
-        // Contacts Column
+        // Medicine Column
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -413,22 +425,23 @@ fun Row5() {
                 .width(130.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.contactss),
-                contentDescription = "Contacts",
+                painter = painterResource(id = R.drawable.medicinss),
+                contentDescription = "Medicine",
                 modifier = Modifier
                     .clickable {
-                        context.startActivity(Intent(context, ContactsActivity::class.java))  // Change to the desired activity
+                        context.startActivity(Intent(context, MedicineActivity::class.java))  // Change to the desired activity
                     }
                     .width(80.dp)
                     .height(70.dp)
             )
             Text(
-                text = "Contacts",
+                text = "Medicine",
                 fontSize = 18.sp,
                 modifier = Modifier.padding(8.dp),
                 color = Color.White
             )
         }
+
     }
 }
 

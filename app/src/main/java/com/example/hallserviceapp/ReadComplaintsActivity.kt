@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -99,7 +100,7 @@ fun ReadComplaintsScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            HeaderSectionReadComplaints()
+            HeaderSectionAll("Read Complaints")
             Spacer(modifier = Modifier.height(20.dp))
             //HeaderSection()
             if (isLoading) {
@@ -121,16 +122,31 @@ fun ReadComplaintsScreen() {
 }
 
 @Composable
-fun HeaderSectionReadComplaints() {
-    val yellow = Color(0xFF40E48A)
+fun HeaderSectionAll(headlinee : String) {
     val context = LocalContext.current
-
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = headlinee,
+                color = Color.Black,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .background(Color.White, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                textAlign = TextAlign.Center
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.arrow_back),
             contentDescription = "arrow",
@@ -141,20 +157,12 @@ fun HeaderSectionReadComplaints() {
                             context,
                             AdminActivity::class.java
                         )
-                    )
+                    )  // Change to the desired activity
                 }
-                .padding(end = 10.dp)
-                .size(width = 90.dp, height = 30.dp)
-        )
-
-        Text(
-            text = "Read Complaints",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
         )
     }
 }

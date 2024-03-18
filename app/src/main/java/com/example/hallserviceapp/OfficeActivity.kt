@@ -101,20 +101,33 @@ fun OfficeScreen() {
 
 @Composable
 fun HeaderSectionOffices() {
-    val yellow = Color(0xFF40E48A)
     val context = LocalContext.current
-
-    Spacer(modifier = Modifier.height(15.dp))
-
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = "Office Information",
+                color = Color.Black,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .background(Color.White, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                textAlign = TextAlign.Center
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.headline),
-            contentDescription = "headline",
+            contentDescription = "Headline",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
@@ -122,21 +135,12 @@ fun HeaderSectionOffices() {
                             context,
                             UserActivity::class.java
                         )
-                    )
+                    )  // Change to the desired activity
                 }
-                .padding(10.dp)
-                .size(width = 50.dp, height = 25.dp)
-        )
-
-        Text(
-            text = "Office Information",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .background(Color.White, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
         )
     }
 }
@@ -186,124 +190,6 @@ fun OfficeInformationSection() {
         }
     }
 }
-@Composable
-fun StudentItem3(student: Student) {
-    val gree = Color(0xFF36A2D8)
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-        //.background(Color.White) ,// Set a white background color for the card
-        //elevation = 4.dp // Add elevation for a shadow effect
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                val painter: Painter = rememberImagePainter(student.imageUrl)
-
-                Image(
-                    painter = painter,
-                    contentDescription = "Student Image",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape) // Clip the image to a circle shape
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = student.name,
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF3D82D5)
-
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Registration: ${student.registrationNumber}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Black
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Department: ${student.department}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = gree
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Hometown: ${student.hometown}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = gree
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Phone: ${student.phoneNumber}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = gree
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Room No: ...",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = gree
-                    )
-                }
-            }
-            Divider( // Add a divider line between student items
-                color = Color.Black,
-                thickness = 2.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-        }
-    }
-}
-@Composable
-fun OfficeItem2(office: Office) {
-    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            val painter: Painter = rememberImagePainter(office.imageUrl)
-
-            Image(
-                painter = painter,
-                contentDescription = "Office Image",
-                modifier = Modifier
-                    .size(80.dp)
-                    .padding(start = 8.dp)
-            )
-            Spacer(modifier = Modifier.width(14.dp))
-
-            Column(modifier = Modifier.padding(16.dp)) {
-
-                Text(text = "Name:  ${office.name}", style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(text = "Designation:  ${office.designation}", style = MaterialTheme.typography.bodyMedium)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Email:  ${office.email}", style = MaterialTheme.typography.bodySmall)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Phone Number:  ${office.phoneNumber}", style = MaterialTheme.typography.bodySmall)
-                Spacer(modifier = Modifier.height(4.dp))
-                // Add more details or actions for each office item here
-
-            }
-        }
-    }
-}
-
 @Composable
 fun OfficeItem(office: Office) {
     val gree = Color(0xFF36A2D8)

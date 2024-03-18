@@ -67,7 +67,7 @@ fun ShopScreen() {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HeaderSection("Food Shop") // You can reuse the HeaderSection from DiningActivity or create a new one
+            Headlineee("Food Shop") // You can reuse the HeaderSection from DiningActivity or create a new one
 
             ItemSection("Coffee", "Freshly brewed coffee")
             ItemSection("Sandwich", "Chicken and salad sandwich")

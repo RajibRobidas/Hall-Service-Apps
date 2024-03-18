@@ -95,7 +95,7 @@ fun NoticeTextScreen() {
                 .padding(16.dp)
         ) {
 
-            HeaderSectionNT()
+            HeaderSectionAl("TextNotice")
             Spacer(modifier = Modifier.height(20.dp))
 
             InputTitleNT(titleState, "Enter complaint title") { titleState = it }
@@ -192,24 +192,37 @@ fun InputFieldNT(
             .background(Color.White, shape = MaterialTheme.shapes.medium)
     )
 }
+
+
 @Composable
-fun HeaderSectionNT() {
-    val gray = Color(0xFFBA6FBD)
-    val green = Color(0xFF43B83A)
-    val yellow = Color(0xFF40E48A)
-
+fun HeaderSectionAl(headlinee : String) {
     val context = LocalContext.current
-
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.Top
     ) {
-        // Image on the left side
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = headlinee,
+                color = Color.Black,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .background(Color.White, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                textAlign = TextAlign.Center
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "headline",
+            contentDescription = "arrow",
             modifier = Modifier
                 .clickable {
                     context.startActivity(
@@ -219,21 +232,10 @@ fun HeaderSectionNT() {
                         )
                     )  // Change to the desired activity
                 }
-                .padding(end = 10.dp)
-                .size(width = 100.dp, height = 40.dp)
-        )
-
-        //Spacer(modifier = Modifier.width(5.dp)) // For spacing
-
-        Text(
-            text = "TextNotice",
-            color = Color.Black,
-            fontSize = 25.sp,
-            modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
         )
     }
 }

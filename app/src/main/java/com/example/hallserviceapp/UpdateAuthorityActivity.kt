@@ -1,7 +1,6 @@
 package com.example.hallserviceapp
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -19,12 +18,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,10 +46,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.hallserviceapp.ui.theme.HallServiceAppTheme
 import com.google.firebase.database.DatabaseReference
@@ -90,7 +88,7 @@ fun UpdateAuthorityScreen() {
     var showDialog by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }  // Loading state
 
-    Box(
+    Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -107,9 +105,9 @@ fun UpdateAuthorityScreen() {
                 //.background(lightBlue)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
-            HeaderSectionAuthority()
+            HeaderSectionAll("Add Authority")
 
             Spacer(modifier = Modifier.size(16.dp))
 
@@ -124,7 +122,7 @@ fun UpdateAuthorityScreen() {
                         LoadImage { uri ->
                             imageUri = uri
                         }
-                        Spacer(modifier = Modifier.width(15.dp))
+                        Spacer(modifier = Modifier.width(40.dp))
 
                         ShowImage(imageUri)
 
@@ -252,18 +250,6 @@ fun UpdateAuthorityScreen() {
 }
 
 @Composable
-fun ProgressDialog() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f))
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(color = Color.Green)
-    }
-}
-@Composable
 fun LoadImage(
     onImageSelected: (Uri) -> Unit
 ) {
@@ -279,23 +265,20 @@ fun LoadImage(
 
     Box(
         modifier = Modifier
-            .size(150.dp)
+            .size(80.dp)
             .clickable {
                 launcher.launch("image/*")
             }
-            .background(Color.LightGray, RoundedCornerShape(8.dp))
+            .background(Color(0xFFFBF9FC), RoundedCornerShape(8.dp)),
+        contentAlignment = Alignment.Center
+
     ) {
 
-        Text(
-            text = "Select Image",
-            color = Color.Black,
-            fontSize = 20.sp,
+        Image(
+            imageVector = Icons.Default.Add,
+            contentDescription = "Plus Icon",
             modifier = Modifier
-                .background(Color(0xFFFBF9FC), shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
+                .size(60.dp)
         )
     }
 }
@@ -315,48 +298,6 @@ fun ShowImage(imageUri: Uri?) {
         )
     }
 }
-
-@Composable
-fun HeaderSectionAuthority() {
-
-    val yellow = Color(0xFF40E48A)
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "arrow",
-            modifier = Modifier
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            AdminActivity::class.java
-                        )
-                    )
-                }
-                .padding(end = 10.dp)
-                .size(width = 90.dp, height = 30.dp)
-        )
-
-        Text(
-            text = "Add Authority",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
 
 fun uploadAuthorityToFirebase(
     context: Context,

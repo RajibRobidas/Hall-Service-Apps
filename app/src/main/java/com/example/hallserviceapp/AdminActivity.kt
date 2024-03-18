@@ -30,8 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.hallserviceapp.ui.theme.HallServiceAppTheme
 
 
@@ -78,41 +80,166 @@ fun AdminScreen() {
                 Spacer(modifier = Modifier.height(30.dp))
                 LazyColumn {
                     //item {  }
-                    //item {  }
-                    item { ChangeOption("Read Complaints", R.drawable.complainttt,"ReadComplaintsActivity") }
+
+                    item { ChangeOptionT("Complains/Notice") }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Upload Notice", R.drawable.notice,"UploadNoticeActivity") }
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Delete Notice", R.drawable.delete_notice,"DeleteNoticeActivity") }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ){
+                            ChangeOption("Read Complaints", R.drawable.complainttt,"ReadComplaintsActivity")
+                        }
+                    }
+                    item { Spacer(modifier = Modifier.height(10.dp)) }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ){
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                                    .padding(horizontal = 10.dp)
+
+                            ){
+
+                                ChangeOption("Upload Notice", R.drawable.notice,"UploadNoticeActivity")
+                                //Spacer(modifier = Modifier.height(30.dp))
+                                ChangeOption("Delete Notice", R.drawable.delete_notice,"DeleteNoticeActivity")
+                            }
+                        }
+                    }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
 
 
-                    item { ChangeOption("ADD Dining Food", R.drawable.dyningfood,"AddDiningActivity") }
+                    item { ChangeOptionT("Food") }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Delete Dining Food", R.drawable.dyningfood,"DeleteDiningActivity") }
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("ADD Canteen Food", R.drawable.foodd,"AddCanteenActivity") }
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Delete Canteen Food", R.drawable.foodd,"DeleteCanteenActivity") }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ){
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                                    .padding(horizontal = 10.dp)
+
+                            ){
+                                ChangeOption("ADD Dining Food", R.drawable.dyningfood,"AddDiningActivity")
+                                //Spacer(modifier = Modifier.height(30.dp))
+                                ChangeOption("ADD Canteen Food", R.drawable.foodd,"AddCanteenActivity")
+                            }
+                        }
+                    }
+                    item { Spacer(modifier = Modifier.height(10.dp)) }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ){
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                                    .padding(horizontal = 10.dp)
+
+                            ){
+                                ChangeOption("Delete Dining Food", R.drawable.dyningfood,"DeleteDiningActivity")
+                                //Spacer(modifier = Modifier.height(30.dp))
+                                ChangeOption("Delete Canteen Food", R.drawable.foodd,"DeleteCanteenActivity")
+                            }
+                        }
+                    }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
 
 
-                    item { ChangeOption("Add User", R.drawable.placeholder_a,"AddUserActivity") }
+                    item { ChangeOptionT("Student/Authority") }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Delete User", R.drawable.placeholder,"DeleteUser") }
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Delete Information", R.drawable.icon_account_circle,"DeleteInformation") }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                                    .padding(horizontal = 10.dp)
+
+                            ) {
+                                ChangeOption("Add Student", R.drawable.student_p,"StudentActivity")
+                                //Spacer(modifier = Modifier.height(30.dp))
+                                ChangeOption("Add Authority", R.drawable.authoriy_p,"UpdateAuthorityActivity")
+                            }
+                        }
+                    }
+                    item { Spacer(modifier = Modifier.height(10.dp)) }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                                    .padding(horizontal = 10.dp)
+
+                            ) {
+                                ChangeOption("Add Office", R.drawable.office_worker,"UpdateOfficeActivity")
+                                //Spacer(modifier = Modifier.height(30.dp))
+                                ChangeOption("Delete Information", R.drawable.icon_account_circle,"DeleteInformation")
+                            }
+                        }
+                    }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
 
-
-                    item { ChangeOption("Add Student", R.drawable.student_p,"StudentActivity") }
+                    item { ChangeOptionT("User") }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Add Office", R.drawable.office_worker,"UpdateOfficeActivity") }
+                    item {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .padding(horizontal = 10.dp)
+                        ) {
+                            ChangeOption("Add User", R.drawable.placeholder_a,"AddUserActivity")
+                            //Spacer(modifier = Modifier.height(30.dp))
+                            ChangeOption("Delete User", R.drawable.placeholder,"DeleteUser")
+                        }
+                    }
+                    item { Spacer(modifier = Modifier.height(10.dp)) }
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            ChangeOption("Reset Password", R.drawable.resetpassword,"SignUpActivity")
+                        }
+                    }
                     item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Add Authority", R.drawable.authoriy_p,"UpdateAuthorityActivity") }
-                    item { Spacer(modifier = Modifier.height(30.dp)) }
-                    item { ChangeOption("Reset Password", R.drawable.resetpassword,"SignUpActivity") }
-
                 }
             }
         }
@@ -122,15 +249,35 @@ fun AdminScreen() {
 
 @Composable
 fun HeaderSectionAd() {
-
     val context = LocalContext.current
-
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = "View as User",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .background(Color.White, shape = MaterialTheme.shapes.medium)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .clickable {
+                        context.startActivity(
+                            Intent(
+                                context,
+                                UserActivity::class.java
+                            )
+                        )  // Change to the desired activity
+                    }
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.arrow_back),
             contentDescription = "Headline",
@@ -143,35 +290,15 @@ fun HeaderSectionAd() {
                         )
                     )  // Change to the desired activity
                 }
-                .size(58.dp)
-                .padding(10.dp)
-                //.padding(end = 25.dp)
-        )
-
-        Spacer(modifier = Modifier.width(35.dp)) // For spacing
-
-        Text(
-            text = "View as User",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .background(Color.White, shape = MaterialTheme.shapes.medium)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            UserActivity::class.java
-                        )
-                    )  // Change to the desired activity
-                }
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
         )
     }
 }
-
 @Composable
-fun ChangeOption(text: String, iconResId: Int, actName : String) {
-
-    val context = LocalContext.current
+fun ChangeOptionT(text: String) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -182,6 +309,29 @@ fun ChangeOption(text: String, iconResId: Int, actName : String) {
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .padding(16.dp)
+        ) {
+            Text(text = text, style = MaterialTheme.typography.bodyLarge)
+        }
+    }
+}
+
+@Composable
+fun ChangeOption(text: String, iconResId: Int, actName : String) {
+
+    val context = LocalContext.current
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .width(140.dp)
+            .height(140.dp)
+            .padding(10.dp)
+    ) {
+        Image(
+            painter = painterResource(id = iconResId),
+            contentDescription = "Sports",
+            modifier = Modifier
                 .clickable {
                     val intent = when (actName) {
 
@@ -205,16 +355,18 @@ fun ChangeOption(text: String, iconResId: Int, actName : String) {
                     }
                     context.startActivity(intent)
                 }
-        ) {
-            Image(
-                painter = painterResource(id = iconResId),
-                contentDescription = text,
-                modifier = Modifier.size(40.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = text, style = MaterialTheme.typography.bodyLarge)
-        }
+                .width(70.dp)
+                .height(60.dp)
+        )
+        Text(
+            text = text,
+            fontSize = 15.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(8.dp),
+            color = Color.White
+        )
     }
+
 }
 
 @Preview(showBackground = true)

@@ -65,7 +65,7 @@ fun CanteenScreen() {
             verticalArrangement = Arrangement.Top,
 
             ) {
-            HeaderSection("Canteen") // You can reuse the HeaderSection from DiningActivity or create a new one
+            Headlineee("Canteen") // You can reuse the HeaderSection from DiningActivity or create a new one
 
             MealSection("Breakfast", "8:00 am", "Khichuri - Egg - Dal")
             MealSection("Lunch", "12:30 pm", "Chicken, Dal, Fish, Egg, Vegetable, Murighanto")
@@ -82,7 +82,7 @@ fun SpecialMealSection(specialMealName: String, time: String, description: Strin
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
-            .background(Color(0xFFDDBBFF), shape = RoundedCornerShape(10.dp)) // Different background color for special meals
+            .background(Color.LightGray, shape = RoundedCornerShape(10.dp))
             .padding(16.dp)
     ) {
         Text(

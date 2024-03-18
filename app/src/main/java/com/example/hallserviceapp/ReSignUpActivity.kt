@@ -81,21 +81,7 @@ fun SignUpScreen() {
                     .padding(16.dp)
             ) {
                 val context = LocalContext.current
-                Image(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = "headline",
-                    modifier = Modifier
-                        .clickable {
-                            context.startActivity(
-                                Intent(
-                                    context,
-                                    AdminActivity::class.java
-                                )
-                            )
-                        }
-                        .padding(end = 10.dp)
-                        .size(width = 40.dp, height = 40.dp)
-                )
+                Spacer(modifier = Modifier.height(15.dp))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,

@@ -22,12 +22,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -67,7 +67,7 @@ fun MainScreen() {
     var isShowingFirstImage by remember { mutableStateOf(true) }
     LaunchedEffect(key1 = true) {
         // Wait for 0.5 seconds before showing the second image
-        delay(3500)
+        delay(2500)
         isShowingFirstImage = false
     }
     if (isShowingFirstImage) {
@@ -165,61 +165,50 @@ fun ColumnWithBackgroundImage(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar() {
-    val lightblueTo = Color(0xFFFFFFFF) // Light blue color
+    val lightblueTo = Color(0xFF4FF5CD) // Light blue color
     val context = LocalContext.current
-    Row (
-
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+    Box(
         modifier = Modifier
             .fillMaxWidth()
+            .height(65.dp)
             .background(lightblueTo) // Set the Topbackground color here
-
-    ){
-
-        TopAppBar(
-            title = { Text(text = "Hall App") },
-            modifier = Modifier
-                .width(270.dp)
-                .background(lightblueTo) // Set the Topbackground color here
-
-        )
-        Spacer(modifier = Modifier.width(30.dp))
-
-        Text(
-            text = "Admin",
-            color = Color(0xFFD8D4D4),
-            fontSize = 15.sp,  // Adjusted for better fit
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth()
-                .clickable {
-                    context.startActivity(Intent(context, FrontAdminActivity::class.java))
-                },
-        )
-    }
-}
-
-@Composable
-fun MainContent2(padding: PaddingValues) {
-    // Define a light blue color
-    val lightBlue = Color(0xFF8FABE7) // Light blue color
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(lightBlue) // Set the background color here
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        CircularImageView(imageRes = R.drawable.sust_logo, size = 120.dp)
-        Spacer(modifier = Modifier.height(30.dp))
-        CircularImageView(imageRes = R.drawable.hall_pic, size = 290.dp, height = 145.dp)
-        HallTitle()
-        EnterButton()
+        Row (
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                //.background(lightblueTo) // Set the Topbackground color here
+
+        ){
+            Text(
+                text = "Hall App",
+                color = Color(0xFF302B2B),
+                fontSize = 20.sp,  // Adjusted for better fit
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .padding(start = 14.dp)
+                    .width(270.dp)
+            )
+            Spacer(modifier = Modifier.width(25.dp))
+
+            Text(
+                text = "Admin",
+                color = Color(0xFF727070),
+                fontSize = 15.sp,  // Adjusted for better fit
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .fillMaxWidth()
+                    //.padding(end = 5.dp)
+                    .clickable {
+                        context.startActivity(Intent(context, FrontAdminActivity::class.java))
+                    },
+            )
+        }
     }
+
 }
+
 @Composable
 fun MainContent(padding: PaddingValues) {
     // Define a light blue color
@@ -245,10 +234,18 @@ fun MainContent(padding: PaddingValues) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            CircularImageView(imageRes = R.drawable.sust_logo, size = 120.dp)
+            //CircularImageView(imageRes = R.drawable.logo_var_3, size = 120.dp)
+            Image(
+                painter = painterResource(id = R.drawable.logo_var_3),
+                contentDescription = "Image",
+                modifier = Modifier
+                    .size(width = 120.dp, height = 120.dp)
+                    .padding(2.dp)
+            )
             Spacer(modifier = Modifier.height(30.dp))
             CircularImageView(imageRes = R.drawable.hall_pic, size = 290.dp, height = 145.dp)
             HallTitle()
+            Spacer(modifier = Modifier.height(40.dp))
             EnterButton()
         }
     }
@@ -276,12 +273,11 @@ fun CircularImageView(imageRes: Int, size: Dp, height: Dp = size) {
 fun HallTitle() {
     Text(
         text = "SUST Hall 3",
-        color = Color.White,
+        color = Color(0xFF49A7D3),
         fontSize = 30.sp,  // Adjusted for better fit
         modifier = Modifier
             .padding(vertical = 16.dp)
             .fillMaxWidth(),
-            //.background(color = Color(51, 165, 125, 255),shape = MaterialTheme.shapes.medium),
         textAlign = TextAlign.Center
     )
 }
@@ -293,13 +289,15 @@ fun EnterButton() {
         onClick = {
             context.startActivity(Intent(context, LoginActivity::class.java))  // Change to the desired activity
         },
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF04CFB2)),
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
+            .height(67.dp)
             .padding(vertical = 16.dp)
+            //.background(Color(0xFF04CFB2), shape = RoundedCornerShape(15.dp))
+
     ) {
         Text(text = "Enter")
-
     }
 }
 

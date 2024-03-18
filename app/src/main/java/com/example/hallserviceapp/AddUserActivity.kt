@@ -1,23 +1,18 @@
 package com.example.hallserviceapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +33,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.hallserviceapp.ui.theme.HallServiceAppTheme
 import com.google.firebase.auth.FirebaseAuth
 
@@ -84,7 +78,7 @@ fun AddUserContent() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val context = LocalContext.current
-            HeaderSectionAddUser()
+            HeaderSectionAll("Add User")
 
             Spacer(modifier = Modifier.height(150.dp))
 
@@ -152,45 +146,6 @@ fun AddUserContent() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun HeaderSectionAddUser() {
-    val yellow = Color(0xFF40E48A)
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "arrow",
-            modifier = Modifier
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            AdminActivity::class.java
-                        )
-                    )
-                }
-                .padding(end = 10.dp)
-                .size(width = 90.dp, height = 30.dp)
-        )
-
-        Text(
-            text = "Add User",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp))
-        )
     }
 }
 

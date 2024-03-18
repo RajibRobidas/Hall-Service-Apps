@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -55,7 +56,7 @@ class MedicineActivity : ComponentActivity() {
 @Composable
 fun MedicineScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
-    val gray = Color(0xFFBA6FBD)
+    val gray = Color(0xFF504B50)
     val green = Color(0xFF43B83A)
     val yellow = Color(0xFFC5B685)
 
@@ -79,92 +80,118 @@ fun MedicineScreen() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.Top,
         ) {
-            HeaderSectionMedicin()
-
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            Box(
-                contentAlignment = Alignment.TopCenter,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "Available medicine list:",
-                    fontSize = 30.sp,
-                    color = Color.White,
-                    modifier = Modifier
-                        //.background(lightBlue, shape = RoundedCornerShape(10.dp))
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    textAlign = TextAlign.Center
-                )
-            }
-            // Available Medicine List Label
+            Headlineee("Medicine")
 
             Spacer(modifier = Modifier.height(30.dp))
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(18.dp)
+                    .padding(10.dp)
                     .background(Color.White, shape = RoundedCornerShape(10.dp))
-                    .padding(16.dp)
+                //.padding(16.dp)
             ) {
                 Text(
-                    text = "Room no : 101",
-                    fontSize = 25.sp,
+                    text = "Available medicine list:",
+                    fontSize = 20.sp,
+                    color = Color.Black,
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .background(yellow)
+                        .fillMaxWidth()
+                        .padding(15.dp),
+                    textAlign = TextAlign.Right
+                )
+                Divider( // Add a divider line between student items
+                    color = Color.Black,
+                    thickness = 3.dp,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .padding(horizontal = 10.dp)
+
+                )
+                Text(
+                    text = "Room no : 101",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .padding(vertical = 5.dp)
+                        .padding(horizontal = 18.dp)
+                    //.align(Alignment.CenterHorizontally)
+                    //.background(gray)
+                )
+                Divider( // Add a divider line between student items
+                    color = gray,
+                    thickness = 3.dp,
+                    modifier = Modifier
+                        .width(170.dp)
+                        .padding(8.dp)
+                        .padding(horizontal = 10.dp)
+
                 )
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Column(
                     modifier = Modifier
-                        .background(Color.White, shape = RoundedCornerShape(10.dp))
+                        //.background(Color.White, shape = RoundedCornerShape(10.dp))
                         .padding(16.dp)
                 ) {
-                    Text(text = "1. First aid kits", fontSize = 24.sp)
+                    Text(text = "* First aid kits", fontSize = 24.sp)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "2. Napa Extra Tablet", fontSize = 24.sp)
+                    Text(text = "* Napa Extra Tablet", fontSize = 24.sp)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "3. Histacin", fontSize = 24.sp)
+                    Text(text = "* Histacin", fontSize = 24.sp)
                     // Add more medicines as needed
                 }
+
+                Spacer(modifier = Modifier.height(70.dp))
+
             }
+
         }
     }
 }
+
 @Composable
-fun HeaderSectionMedicin() {
-
+fun Headlineeee(headlinee : String) {
     val context = LocalContext.current
-
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = headlinee,
+                color = Color.White,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    //.background(Color.White, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                textAlign = TextAlign.Center
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.headline),
             contentDescription = "Headline",
             modifier = Modifier
-                .clickable{
-                    context.startActivity(Intent(context, UserActivity::class.java))  // Change to the desired activity
+                .clickable {
+                    context.startActivity(
+                        Intent(
+                            context,
+                            UserActivity::class.java
+                        )
+                    )  // Change to the desired activity
                 }
-                .size(58.dp)
-                .padding(start = 20.dp)
-        )
-
-        Spacer(modifier = Modifier.width(60.dp)) // For spacing
-
-        Text(
-            text = "Medicine",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .background(Color.White, shape = MaterialTheme.shapes.medium)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
         )
     }
 }

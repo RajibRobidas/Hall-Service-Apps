@@ -10,13 +10,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -80,45 +78,10 @@ fun UpdateStudentScreen() {
                     horizontalAlignment = Alignment . CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
-
             Spacer(modifier = Modifier.height(30.dp)) // For spacing
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                // Image on the left side
-                Image(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = "arrow",
-                    modifier = Modifier
-                        .clickable {
-                            context.startActivity(
-                                Intent(
-                                    context,
-                                    AdminActivity::class.java
-                                )
-                            )  // Change to the desired activity
-                        }
-                        .padding(end = 10.dp)
-                        .size(width = 90.dp, height = 40.dp)
-                )
+            HeaderSectionAll("Delete Information")
 
-                Spacer(modifier = Modifier.width(2.dp)) // For spacing
-
-                Text(
-                    text = "Delete Information",
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .background(green, RoundedCornerShape(15.dp))
-                        .padding(12.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    textAlign = TextAlign.Center
-                )
-            }
             Spacer(modifier = Modifier.height(100.dp)) // For spacing
 
             Box(

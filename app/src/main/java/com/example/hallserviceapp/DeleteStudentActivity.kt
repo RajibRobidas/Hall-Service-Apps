@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +27,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -69,46 +69,6 @@ class DeleteStudentActivity : ComponentActivity() {
 }
 
 @Composable
-fun HeaderSectionStudentD() {
-    val yellow = Color(0xFF40E48A)
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.arrow_back),
-            contentDescription = "arrow",
-            modifier = Modifier
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            UpdateStudentActivity::class.java
-                        )
-                    )
-                }
-                .padding(10.dp)
-                .size(width = 50.dp, height = 25.dp)
-        )
-
-        Text(
-            text = "Student Information",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .background(yellow, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
 fun DeleteStudentScreen() {
     val lightBlue = Color(0xFF8FABE7) // Light blue color
     var registrationNumber by remember { mutableStateOf("") }
@@ -130,7 +90,7 @@ fun DeleteStudentScreen() {
                 //.background(lightBlue)
                 .padding(16.dp)
         ) {
-            HeaderSectionStudentD()
+            HeaderSectionAlii("Student Information")
             //SearchSection()
             DeleteStudentSections(registrationNumber = registrationNumber) // Pass the registration number to filter the list
         }
@@ -138,36 +98,48 @@ fun DeleteStudentScreen() {
 }
 
 @Composable
-fun SearchSection() {
-    var text by remember { mutableStateOf("") }
-    var isButtonClicked by remember { mutableStateOf(false) }
-    var registrationNumber by remember { mutableStateOf("") }
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+fun HeaderSectionAlii(headlinee : String) {
+    val context = LocalContext.current
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        TextField(
-            value = registrationNumber,
-            onValueChange = { registrationNumber = it },
-            label = { Text("Enter Registration Number") },
-            modifier = Modifier.weight(1f)
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Button(
-            onClick = { isButtonClicked = true },
-            modifier = Modifier.height(56.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Search")
+            //Spacer(modifier = Modifier.width(35.dp)) // For spacing
+            Text(
+                text = headlinee,
+                color = Color.Black,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .background(Color.White, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                textAlign = TextAlign.Center
+            )
         }
-    }
-    Spacer(modifier = Modifier.height(8.dp))
-
-    if (isButtonClicked) {
-        DeleteStudentSections(registrationNumber = registrationNumber) // Pass the registration number to filter the list
-        isButtonClicked =false
+        Image(
+            painter = painterResource(id = R.drawable.arrow_back),
+            contentDescription = "arrow",
+            modifier = Modifier
+                .clickable {
+                    context.startActivity(
+                        Intent(
+                            context,
+                            UpdateStudentActivity::class.java
+                        )
+                    )  // Change to the desired activity
+                }
+                .padding(vertical = 10.dp)
+                //.padding(top = 4.dp)
+                .size(50.dp)
+                .padding(9.dp)
+        )
     }
 }
 
@@ -245,25 +217,6 @@ fun StudentItemWithDelete(student: Student, onDelete: (String) -> Unit) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 val database = FirebaseDatabase.getInstance().getReference("students")
-/*
-                Button(
-                    onClick = {
-                        // Delete student from Firebase
-                        database.child(student.id).removeValue()
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(context, "Student deleted", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(context, "Failed to delete student", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                    },
-                    modifier = Modifier
-                        .padding(vertical = 3.dp)
-                ) {
-                    Text(text = "Delete")
-                }
-*/
                 Button(onClick = { onDelete(student.id) }) {
                     Text("Delete")
                 }

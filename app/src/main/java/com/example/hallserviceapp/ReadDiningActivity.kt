@@ -1,12 +1,10 @@
 package com.example.hallserviceapp
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,16 +31,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.hallserviceapp.ui.theme.HallServiceAppTheme
 import com.google.firebase.database.DataSnapshot
@@ -87,7 +81,7 @@ fun ReadDiningScreen() {
                 //.background(lightBlue)
                 .padding(16.dp)
         ) {
-            HeaderSectionDiningRe()
+            Headlineee("Food For Today")
             ReadDiningSection()
         }
     }
@@ -138,49 +132,6 @@ fun ReadDiningSection() {
         }
     }
 }
-
-@Composable
-fun HeaderSectionDiningRe() {
-    val yellow = Color(0xFF40E48A)
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.headline),
-            contentDescription = "arrow",
-            modifier = Modifier
-                .clickable {
-                    context.startActivity(
-                        Intent(
-                            context,
-                            UserActivity::class.java
-                        )
-                    )
-                }
-                .padding(10.dp)
-                .size(width = 50.dp, height = 25.dp)
-
-        )
-
-        Text(
-            text = "Food For Today",
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .background(Color.White, shape = RoundedCornerShape(10.dp))
-                .padding(10.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
 @Composable
 fun DiningFoodItem(diningFood: DiningFoods) {
     Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
